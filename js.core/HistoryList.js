@@ -50,17 +50,36 @@ class HistoryList extends Component {
   	};
   }
 
-
   _convertDate(date: string){//change the date like '2015-11-05' into '2015/11/05'
-  	return date.replace('/\-/g', '/');//居然是一个一个替换,使用正则表达式解决方案
+  	return date.replace(new RegExp('-', 'g'), '/');//居然是一个一个替换,使用正则表达式解决方案
+  }
+
+  _genDailyAPI(date: string){
+    return API_DAILY + date;
   }
 
   async componentDidMount(){
   	var responseData = await this.fetchData(REQUEST_DATE_URL);//返回json对象
-  	console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
- 		for(var date of responseData.results){
-  		console.log(this._convertDate(date));
-  	}
+    //console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
+    /*for(var date of responseData.results){
+      console.log('converted data is '+ this._convertDate(date));
+    }*/
+    var contentUrl = responseData.results.map(this._convertDate).map(this._genDailyAPI);//使用到了数组的map特性
+
+    var contentData = [];
+    for(var url of contentUrl){
+        var tempItem = {};
+        var dailyContent = await this.fetchData(url);
+        tempItem.title = dailyContent.results.休息视频[0].desc;
+        tempItem.thumbnail = dailyContent.results.福利[0].url;
+
+        contentData.push(tempItem);
+    }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(contentData),
+      loaded: true
+    })
   }
 
 
@@ -107,13 +126,14 @@ class HistoryList extends Component {
   			);
   }*/
 
-  _renderItem(date, sectionID, highlightRow){
+  _renderItem(contentData, sectionID, highlightRow){
   	return (
   		<TouchableHighlight>
   		<View style={styles.itemContainer}>
-  			<Text>
-  			{date}
-  			</Text>
+  			<Text style={styles.title}>{contentData.title}</Text>
+        <Image source={{uri: contentData.thumbnail}} 
+               style={styles.thumbnail}
+        />
   		</View>
   		</TouchableHighlight>
   	);
@@ -122,26 +142,26 @@ class HistoryList extends Component {
 }
 
 var styles = StyleSheet.create({
-	redbox: {
-		borderWidth: 2,
-		borderColor: '#FF0000',
-		flex: 1
-	},
 	container: {
-		flex: 1
+		flex: 1,
+    backgroundColor: 'black'
 	},
 	itemContainer: {
-		flexDirection: 'row',
+		flexDirection: 'column',
 		// height: 30,
-		backgroundColor: 'red',
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding : 10
+		paddingTop : 20
 	},
-	title: {
-		fontSize: 26,
-		marginBottom: 6,
-	},
+  thumbnail: {
+    width: 400,
+    height: 200,
+  },
+  title: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: 'white'
+  },
 
 });
 
