@@ -154,8 +154,9 @@ var styles = StyleSheet.create({
 		paddingTop : 20
 	},
   thumbnail: {
-    width: 400,
+    width: null,//配合alignSelf实现宽度上 match_parent
     height: 200,
+    alignSelf: 'stretch'
   },
   title: {
     fontSize: 16,
