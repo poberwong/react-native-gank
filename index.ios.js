@@ -4,25 +4,41 @@
  */
 'use strict';
 
-var React = require('react-native');
+var React = require('react-native')
 import HistoryList from './js.core/HistoryList';
+import DateUtils from './js.core/utils';
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  NavigatorIOS,
+  Component
 } = React;
 
-var ReactNativeGank = React.createClass({
-  render: function() {
+class ReactNativeGank extends Component{
+	constructor(props) {
+  	super(props);
+  	DateUtils.extendDate();//拓展Date类
+  }
+
+  render() {
+    // return (<HistoryList/>);
     return (
-      <HistoryList/>
+      <NavigatorIOS style = {styles.container}
+        initialRoute={{
+          title: 'History',
+          component: HistoryList
+        }}/>
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
 });
 
 AppRegistry.registerComponent('ReactNativeGank', () => ReactNativeGank);
