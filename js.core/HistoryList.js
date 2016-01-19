@@ -9,6 +9,7 @@ var {
   View,
   ListView,
   TouchableHighlight,
+  ActivityIndicatorIOS,
   Image,
   Text,
   Component
@@ -50,7 +51,8 @@ class HistoryList extends Component {
     this.LAST_DATE = DateUtils.getCurrentDate()
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}), // 先初始化一个空的数据集合
-      loaded: false
+      isLoading: true,
+      loadMore: false
     }
   }
 
@@ -85,7 +87,11 @@ class HistoryList extends Component {
 
   render () {
   // 在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
-    console.log(this.LAST_DATE)
+   var spinner = this.state.loadMore ?
+          ( <ActivityIndicatorIOS
+              hidden='true'
+              size='large'/> ):
+          (<View/>)
     return (
       <View style={styles.container}>
         <RefreshableListView
@@ -95,6 +101,7 @@ class HistoryList extends Component {
           onEndReached={this._loadmore.bind(this)}
           onEndReachedThreshold = {29}
         />
+        {spinner}
       </View>
     )
   }
@@ -110,7 +117,7 @@ class HistoryList extends Component {
     this.setState({
       dataArray: contentData,
       dataSource: this.state.dataSource.cloneWithRows(contentData),
-      loaded: true
+      isLoading: false
     })
     // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
@@ -146,6 +153,10 @@ class HistoryList extends Component {
   }
 
   async _loadmore () {
+    this.setState({
+      loadMore: true
+    })
+
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
     var loadedContent = await this.getContent(this._convertDate(lastDate))
     var newContent = this.state.dataArray
@@ -157,7 +168,8 @@ class HistoryList extends Component {
     console.log('newsize' + lastDate)
     this.setState({
       dataArray: newContent,
-      dataSource: this.state.dataSource.cloneWithRows(newContent)
+      dataSource: this.state.dataSource.cloneWithRows(newContent),
+      loadMore: false
     })
   }
 
