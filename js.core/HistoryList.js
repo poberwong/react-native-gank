@@ -39,15 +39,16 @@ date json array:
 date可以使用第一次请求的得来的数据
 */
 
-var API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/';
-var API_DAILY = 'http://gank.avosapps.com/api/day/';
+const API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/';
+const API_DAILY = 'http://gank.avosapps.com/api/day/';
 var PAGE_SIZE = 10;
-var LAST_DATE = '2016/01/05';
-var REQUEST_DATE_URL = API_DATE_BEFORE + PAGE_SIZE + '/before/' + LAST_DATE;
+
 
 class HistoryList extends Component {
+
   constructor(props) {
   	super(props);
+    this.LAST_DATE = DateUtils.getCurrentDate();
   	this.state = {
   	  dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),//先初始化一个空的数据集合
       loaded: false
@@ -62,31 +63,9 @@ class HistoryList extends Component {
     return API_DAILY + date;
   }
 
-  async componentDidMount(){
-  	var responseData = await this.fetchData(REQUEST_DATE_URL);//返回json对象
-    //console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
-    /*for(var date of responseData.results){
-      console.log('converted data is '+ this._convertDate(date));
-    }*/
-    var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI);//使用到了数组的map特性
-
-    var contentData = [];
-    for(let i = 0; i< contentUrl.length; i++){
-        var tempItem = {};
-        var dailyContent = await this.fetchData(contentUrl[i]);
-        tempItem.title = dailyContent.results.休息视频[0].desc;
-        tempItem.thumbnail = dailyContent.results.福利[0].url;
-        tempItem.date = responseData.results[i];
-
-        contentData.push(tempItem);
-    }
-
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(contentData),
-      loaded: true
-    })
+  componentDidMount(){
+    this._refresh();
   }
-
 
   async fetchData(url: string){
    try{
@@ -107,7 +86,7 @@ class HistoryList extends Component {
 
   render(){
   	//在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
-  		console.log(LAST_DATE)
+  		console.log(this.LAST_DATE)
       return (
   			<View style={styles.container}>
   				<RefreshableListView
@@ -119,10 +98,13 @@ class HistoryList extends Component {
   		);
   }
 
+  _updateDate(){
+    this.LAST_DATE = DateUtils.getCurrentDate();
+  }
+
   async _refresh(){
-    LAST_DATE = DateUtils.getCurrentDate();
-    var REQUEST_DATE_URL = API_DATE_BEFORE + PAGE_SIZE + '/before/' + LAST_DATE;
-    var responseData = await this.fetchData(REQUEST_DATE_URL);//返回json对象
+    this._updateDate();
+    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' +this.LAST_DATE);//返回json对象
     //console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
     /*for(var date of responseData.results){
       console.log('converted data is '+ this._convertDate(date));
