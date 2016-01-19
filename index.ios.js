@@ -2,28 +2,26 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+'use strict'
 
 var React = require('react-native')
-import HistoryList from './js.core/HistoryList';
-import DateUtils from './js.core/utils';
+import HistoryList from './js.core/HistoryList'
+import DateUtils from './js.core/utils'
 
 var {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
   NavigatorIOS,
   Component
-} = React;
+} = React
 
-class ReactNativeGank extends Component{
-	constructor(props) {
-  	super(props);
-  	DateUtils.extendDate();//拓展Date类
+class ReactNativeGank extends Component {
+  constructor (props) {
+    super(props)
+    DateUtils.extendDate() // 拓展Date类
   }
 
-  render() {
+  render () {
     // return (<HistoryList/>);
     return (
       <NavigatorIOS style = {styles.container}
@@ -31,7 +29,7 @@ class ReactNativeGank extends Component{
           title: 'History',
           component: HistoryList
         }}/>
-    );
+    )
   }
 }
 
@@ -39,6 +37,6 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   }
-});
+})
 
-AppRegistry.registerComponent('ReactNativeGank', () => ReactNativeGank);
+AppRegistry.registerComponent('ReactNativeGank', () => ReactNativeGank)

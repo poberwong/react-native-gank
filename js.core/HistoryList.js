@@ -1,6 +1,6 @@
 'use strict'
-import React from 'react-native';
-import DateUtils from './utils';
+import React from 'react-native'
+import DateUtils from './utils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
 
@@ -11,8 +11,8 @@ var {
   TouchableHighlight,
   Image,
   Text,
-  Component,
-} = React;
+  Component
+} = React
 
 /*
 date format: 2015/07/22
@@ -39,42 +39,41 @@ date json array:
 date可以使用第一次请求的得来的数据
 */
 
-const API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/';
-const API_DAILY = 'http://gank.avosapps.com/api/day/';
-var PAGE_SIZE = 10;
-
+const API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/'
+const API_DAILY = 'http://gank.avosapps.com/api/day/'
+var PAGE_SIZE = 10
 
 class HistoryList extends Component {
 
-  constructor(props) {
-  	super(props);
-    this.LAST_DATE = DateUtils.getCurrentDate();
-  	this.state = {
-  	  dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),//先初始化一个空的数据集合
+  constructor (props) {
+    super(props)
+    this.LAST_DATE = DateUtils.getCurrentDate()
+    this.state = {
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}), // 先初始化一个空的数据集合
       loaded: false
-  	};
+    }
   }
 
-  _convertDate(date: string){//change the date like '2015-11-05' into '2015/11/05'
-    return date.replace(new RegExp('-', 'g'), '/');//居然是一个一个替换,使用正则表达式解决方案
+  _convertDate (date: string) { // change the date like '2015-11-05' into '2015/11/05'
+    return date.replace(new RegExp('-', 'g'), '/') // 居然是一个一个替换,使用正则表达式解决方案
   }
 
-  _genDailyAPI(date: string){
-    return API_DAILY + date;
+  _genDailyAPI (date: string) {
+    return API_DAILY + date
   }
 
-  componentDidMount(){
-    this._refresh();
+  componentDidMount () {
+    this._refresh()
   }
 
-  async fetchData(url: string){
-   try{
-			let response = await fetch(url);
-			let responseData = await response.json();
-			//就是把一个javascript对象转换为JSON字符串
-			return responseData;
+  async fetchData (url: string) {
+    try {
+      let response = await fetch(url)
+      let responseData = await response.json()
+			// 就是把一个javascript对象转换为JSON字符串
+      return responseData
     } catch (error) {
-    	console.log('data load failed :'+error);
+      console.log('data load failed :' + error)
     }
 /*    fetch(url)
     	.then((response) => response.json())
@@ -84,100 +83,98 @@ class HistoryList extends Component {
     	};*/
   }
 
-  render(){
-  	//在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
-  		console.log(this.LAST_DATE)
-      return (
-  			<View style={styles.container}>
-  				<RefreshableListView
-  					dataSource={this.state.dataSource}
-  					renderRow={this._renderItem.bind(this)}
-            loadData={this._refresh.bind(this)}
-  				/>
-  			</View>	
-  		);
+  render () {
+  // 在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
+    console.log(this.LAST_DATE)
+    return (
+      <View style={styles.container}>
+        <RefreshableListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderItem.bind(this)}
+          loadData={this._refresh.bind(this)}
+        />
+      </View>
+    )
   }
 
-  _updateDate(){
-    this.LAST_DATE = DateUtils.getCurrentDate();
+  _updateDate () {
+    this.LAST_DATE = DateUtils.getCurrentDate()
   }
 
-  async _refresh(){
-    this._updateDate();
-    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' +this.LAST_DATE);//返回json对象
-    //console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
-    /*for(var date of responseData.results){
+  async _refresh () {
+    this._updateDate()
+    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' + this.LAST_DATE)// 返回json对象
+    // console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
+    /* for(var date of responseData.results){
       console.log('converted data is '+ this._convertDate(date));
-    }*/
-    var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI);//使用到了数组的map特性
+    } */
+    var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI)// 使用到了数组的map特性
 
-    var contentData = [];
-    var promises =contentUrl.map(
-        function(url){
-          return fetch(url).then((response)=> response.json());
+    var contentData = []
+    var promises = contentUrl.map(
+        function (url) {
+          return fetch (url).then((response) => response.json())
         }
-      ); 
+      )
 
-    await Promise.all(promises).then((responseDatas)=> {
-      
-        for (let i = 0; i < responseDatas.length; i++) {
-          var tempItem ={};
-          console.log("promise result: "+ responseDatas.length + JSON.stringify(responseDatas[i]));
-          tempItem.title = responseDatas[i].results.休息视频[0].desc;
-          tempItem.thumbnail = responseDatas[i].results.福利[0].url;
-          tempItem.date = responseData.results[i];
-          contentData.push(tempItem);
-          console.log("promise after: "+ tempItem.title);
-        } 
-      });
+    await Promise.all(promises).then((responseDatas) => {
+      for (let i = 0; i < responseDatas.length; i++) {
+        var tempItem = {}
+        console.log('promise result: ' + responseDatas.length + JSON.stringify(responseDatas[i]))
+        tempItem.title = responseDatas[i].results.休息视频[0].desc
+        tempItem.thumbnail = responseDatas[i].results.福利[0].url
+        tempItem.date = responseData.results[i]
+        contentData.push(tempItem)
+        console.log('promise after: ' + tempItem.title)
+      }
+    })
     this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(contentData),
-          loaded: true
+      dataSource: this.state.dataSource.cloneWithRows(contentData),
+      loaded: true
     })
     // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
-
-}
-
-  _renderItem(contentData, sectionID, highlightRow){
-  	return (
-  		<TouchableHighlight onPress= {()=> this._skipIntoContent(contentData)
-      }>
-  		<View style={styles.itemContainer}>
-        <Text style={styles.date}>{contentData.date}</Text>
-  			<Text style={[styles.title]}>{contentData.title}</Text>
-        <Image source={{uri: contentData.thumbnail}} 
-               style={styles.thumbnail}
-        />
-  		</View>
-  		</TouchableHighlight>
-  	);
   }
 
-  _skipIntoContent(contentData){
-    this.props.navigator.push({//活动跳转，以Navigator为容器管理活动页面
+  _renderItem (contentData, sectionID, highlightRow) {
+    return (
+      <TouchableHighlight onPress= {() => this._skipIntoContent(contentData)
+      }>
+        <View style={styles.itemContainer}>
+          <Text style={styles.date}>{contentData.date}</Text>
+          <Text style={[styles.title]}>{contentData.title}</Text>
+          <Image source={{uri: contentData.thumbnail}}
+               style={styles.thumbnail}
+        />
+        </View>
+      </TouchableHighlight>
+    )
+  }
+
+  _skipIntoContent (contentData) {
+    this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
       title: contentData.date,
       component: DailyContent,
-      passProps: {contentData}//传递的参数（可选）
+      passProps: {contentData}// 传递的参数（可选）
     })
   }
 
 }
 
 var styles = StyleSheet.create({
-	container: {
-		flex: 1,
+  container: {
+    flex: 1,
     backgroundColor: 'black'
-	},
-	itemContainer: {
-		flexDirection: 'column',
+  },
+  itemContainer: {
+    flexDirection: 'column',
 		// height: 30,
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingTop : 25
-	},
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 25
+  },
   thumbnail: {
-    width: null,//配合alignSelf实现宽度上 match_parent
+    width: null, // 配合alignSelf实现宽度上 match_parent
     height: 200,
     alignSelf: 'stretch'
   },
@@ -187,9 +184,9 @@ var styles = StyleSheet.create({
     marginRight: 35,
     marginLeft: 35,
     // letterSpacing: 10,//字间距
-    lineHeight: 22,//行距＋字高，0表示和字高一样，没效果
+    lineHeight: 22, // 行距＋字高，0表示和字高一样，没效果
     color: 'white',
-    textAlign: 'center'//字的对其方式：center每行都居中；left，right；auto ＝＝＝ justify ＝＝＝ left
+    textAlign: 'center' // 字的对其方式：center每行都居中；left，right；auto ＝＝＝ justify ＝＝＝ left
   },
   date: {
     fontSize: 20,
@@ -198,9 +195,8 @@ var styles = StyleSheet.create({
   },
   border: {// debugging tools for layout
     borderColor: 'red',
-    borderWidth: 2,
+    borderWidth: 2
   }
 
-});
-
-module.exports = HistoryList;
+})
+module.exports = HistoryList

@@ -1,28 +1,28 @@
-var React = require('react-native');
+import React from 'react-native'
 
-var { 
+var {
     StyleSheet,
     Text,
     View,
     Component,
     Image
-   } = React;
+   } = React
 
-var styles = StyleSheet.create({  
-    container: {
-        marginTop: 63,
-        alignItems: 'center'
-    },
-    image: {
-        width: null,
-        height: 400,
-        alignSelf: 'stretch',
-    },
-    description: {
-        padding: 10,
-        fontSize: 15,
-        color: '#656565'
-    }
+var styles = StyleSheet.create({
+  container: {
+    marginTop: 63,
+    alignItems: 'center'
+  },
+  image: {
+    width: null,
+    height: 400,
+    alignSelf: 'stretch'
+  },
+  description: {
+    padding: 10,
+    fontSize: 15,
+    color: '#656565'
+  }
 });
 
 class DailyContent extends Component {
