@@ -2,6 +2,7 @@
 import React from 'react-native';
 import DateUtils from './utils';
 import DailyContent from './DailyContent'
+import RefreshableListView from 'react-native-refreshable-listview'
 
 var {
   StyleSheet,
@@ -41,7 +42,7 @@ date可以使用第一次请求的得来的数据
 var API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/';
 var API_DAILY = 'http://gank.avosapps.com/api/day/';
 var PAGE_SIZE = 10;
-var LAST_DATE = DateUtils.getCurrentDate();
+var LAST_DATE = '2016/01/05';
 var REQUEST_DATE_URL = API_DATE_BEFORE + PAGE_SIZE + '/before/' + LAST_DATE;
 
 class HistoryList extends Component {
@@ -106,29 +107,45 @@ class HistoryList extends Component {
 
   render(){
   	//在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
-  		return (
+  		console.log(LAST_DATE)
+      return (
   			<View style={styles.container}>
-  				<ListView
+  				<RefreshableListView
   					dataSource={this.state.dataSource}
   					renderRow={this._renderItem.bind(this)}
+            loadData={this._refresh.bind(this)}
   				/>
   			</View>	
   		);
   }
 
-/*  _renderLoadingView(){
-  		return (
-  			<View style={[styles.container, {paddingTop: 20}]}>
-  				<Text>
-  					Loading......{'\n'}
-  					Loading......{'\n'}
-  					Loading......{'\n'}
-  					Loading......{'\n'}
-  					Loading......{'\n'}
-  				</Text>
-  			</View>
-  			);
-  }*/
+  async _refresh(){
+    LAST_DATE = DateUtils.getCurrentDate();
+    var REQUEST_DATE_URL = API_DATE_BEFORE + PAGE_SIZE + '/before/' + LAST_DATE;
+    var responseData = await this.fetchData(REQUEST_DATE_URL);//返回json对象
+    //console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
+    /*for(var date of responseData.results){
+      console.log('converted data is '+ this._convertDate(date));
+    }*/
+    var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI);//使用到了数组的map特性
+
+    var contentData = [];
+    for(let i = 0; i< contentUrl.length; i++){
+        var tempItem = {};
+        var dailyContent = await this.fetchData(contentUrl[i]);
+        tempItem.title = dailyContent.results.休息视频[0].desc;
+        tempItem.thumbnail = dailyContent.results.福利[0].url;
+        tempItem.date = responseData.results[i];
+
+        contentData.push(tempItem);
+    }
+
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(contentData),
+      loaded: true
+    })
+  }
+
 
   _renderItem(contentData, sectionID, highlightRow){
   	return (
