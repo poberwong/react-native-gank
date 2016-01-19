@@ -92,6 +92,8 @@ class HistoryList extends Component {
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           loadData={this._refresh.bind(this)}
+          onEndReached={this._loadmore.bind(this)}
+          onEndReachedThreshold = {29}
         />
       </View>
     )
@@ -103,7 +105,19 @@ class HistoryList extends Component {
 
   async _refresh () {
     this._updateDate()
-    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' + this.LAST_DATE)// 返回json对象
+    var contentData = await this.getContent(this.LAST_DATE)
+    
+    this.setState({
+      dataArray: contentData,
+      dataSource: this.state.dataSource.cloneWithRows(contentData),
+      loaded: true
+    })
+    // ??? setState 放到外边 ，contentData会清零？重置？
+    // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
+  }
+
+  async getContent (lastDate) {
+    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' + lastDate)// 返回json对象
     // console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
     /* for(var date of responseData.results){
       console.log('converted data is '+ this._convertDate(date));
@@ -128,12 +142,23 @@ class HistoryList extends Component {
         console.log('promise after: ' + tempItem.title)
       }
     })
+    return contentData
+  }
+
+  async _loadmore () {
+    var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
+    var loadedContent = await this.getContent(this._convertDate(lastDate))
+    var newContent = this.state.dataArray
+    // newContent.push(loadedContent)//???居然不能直接push一个数组
+    for (let element of loadedContent) {
+      newContent.push(element)
+    }
+
+    console.log('newsize' + lastDate)
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(contentData),
-      loaded: true
+      dataArray: newContent,
+      dataSource: this.state.dataSource.cloneWithRows(newContent)
     })
-    // ??? setState 放到外边 ，contentData会清零？重置？
-    // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
   }
 
   _renderItem (contentData, sectionID, highlightRow) {
