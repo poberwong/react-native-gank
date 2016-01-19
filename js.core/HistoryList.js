@@ -90,7 +90,7 @@ class HistoryList extends Component {
    var spinner = this.state.loadMore ?
           ( <ActivityIndicatorIOS
               hidden='true'
-              size='large'/> ):
+              size='small'/> ):
           (<View/>)
     return (
       <View style={styles.container}>
