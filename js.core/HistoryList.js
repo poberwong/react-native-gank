@@ -112,22 +112,32 @@ class HistoryList extends Component {
     var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI);//使用到了数组的map特性
 
     var contentData = [];
-    for(let i = 0; i< contentUrl.length; i++){
-        var tempItem = {};
-        var dailyContent = await this.fetchData(contentUrl[i]);
-        tempItem.title = dailyContent.results.休息视频[0].desc;
-        tempItem.thumbnail = dailyContent.results.福利[0].url;
-        tempItem.date = responseData.results[i];
+    var promises =contentUrl.map(
+        function(url){
+          return fetch(url).then((response)=> response.json());
+        }
+      ); 
 
-        contentData.push(tempItem);
-    }
-
+    await Promise.all(promises).then((responseDatas)=> {
+      
+        for (let i = 0; i < responseDatas.length; i++) {
+          var tempItem ={};
+          console.log("promise result: "+ responseDatas.length + JSON.stringify(responseDatas[i]));
+          tempItem.title = responseDatas[i].results.休息视频[0].desc;
+          tempItem.thumbnail = responseDatas[i].results.福利[0].url;
+          tempItem.date = responseData.results[i];
+          contentData.push(tempItem);
+          console.log("promise after: "+ tempItem.title);
+        } 
+      });
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(contentData),
-      loaded: true
+          dataSource: this.state.dataSource.cloneWithRows(contentData),
+          loaded: true
     })
-  }
+    // ??? setState 放到外边 ，contentData会清零？重置？
+    // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
 
+}
 
   _renderItem(contentData, sectionID, highlightRow){
   	return (
