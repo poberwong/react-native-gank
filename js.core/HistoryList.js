@@ -95,17 +95,26 @@ class HistoryList extends Component {
               size='small'/>)
     : (<View/>)
 
+    let content = this.state.isLoading
+    ? (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicatorIOS
+              style={styles.indicator}
+              hidden='true'
+              size='large'/>
+        </View>)
+    : (<RefreshableListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderItem.bind(this)}
+          loadData={this._refresh.bind(this)}
+          onEndReached={this._loadmore.bind(this)}
+          onEndReachedThreshold = {29}/>)
+
     return (
       <View style={styles.container}>
         <NavigationBar title='History'
           backHidden={true}
           barTintColor='white'/>
-        <RefreshableListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderItem.bind(this)}
-          loadData={this._refresh.bind(this)}
-          onEndReached={this._loadmore.bind(this)}
-          onEndReachedThreshold = {29}/>
+        {content}
         {loadmoreAnimation}
       </View>
     )
