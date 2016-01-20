@@ -11,7 +11,7 @@ import DateUtils from './js.core/utils'
 var {
   AppRegistry,
   StyleSheet,
-  NavigatorIOS,
+  Navigator,
   Component
 } = React
 
@@ -24,10 +24,12 @@ class ReactNativeGank extends Component {
   render () {
     // return (<HistoryList/>);
     return (
-      <NavigatorIOS style = {styles.container}
+      <Navigator style = {styles.container}
         initialRoute={{
-          title: 'History',
           component: HistoryList
+        }}
+        renderScene={(route, navigator) => {
+          return <route.component route={route} navigator={navigator} {...route.passProps}/>
         }}/>
     )
   }

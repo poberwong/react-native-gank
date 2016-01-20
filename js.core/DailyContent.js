@@ -2,7 +2,6 @@ import React from 'react-native'
 
 var {
     StyleSheet,
-    Text,
     View,
     Component,
     Image
@@ -10,12 +9,12 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: 63,
-    alignItems: 'center'
+    backgroundColor: 'white',
+    flex: 1
   },
   image: {
+    height: 360,
     width: null,
-    height: 400,
     alignSelf: 'stretch'
   },
   description: {
@@ -23,19 +22,18 @@ var styles = StyleSheet.create({
     fontSize: 15,
     color: '#656565'
   }
-});
+})
 
 class DailyContent extends Component {
-    render() {
-        var contentData = this.props.contentData;
-        var thumbnail = (typeof contentData.thumbnail !== 'undefined') ? contentData.thumbnail : '';
-        console.log('uri is '+ thumbnail);
-        return (
-            <View style= {styles.container}>
-              <Image source= {{uri: thumbnail}} style= {styles.image}/>
-            </View>
-        );
-    }
+  render () {
+    var contentData = this.props.contentData
+    var thumbnail = (typeof contentData.thumbnail !== 'undefined') ? contentData.thumbnail : ''
+    console.log('uri is ' + thumbnail)
+    return (
+        <View style= {styles.container}>
+          <Image source= {{uri: thumbnail}} style= {styles.image}/>
+        </View>
+    )
+  }
 }
-
-module.exports = DailyContent;
+module.exports = DailyContent

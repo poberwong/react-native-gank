@@ -3,6 +3,7 @@ import React from 'react-native'
 import DateUtils from './utils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
+import NavigationBar from 'rn-navbar'
 
 var {
   StyleSheet,
@@ -87,21 +88,25 @@ class HistoryList extends Component {
 
   render () {
   // 在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
-   var spinner = this.state.loadMore ?
-          ( <ActivityIndicatorIOS
+    let loadmoreAnimation = this.state.loadMore
+    ? (<ActivityIndicatorIOS
+              style={styles.indicator}
               hidden='true'
-              size='small'/> ):
-          (<View/>)
+              size='small'/>)
+    : (<View/>)
+
     return (
       <View style={styles.container}>
+        <NavigationBar title='History'
+          backHidden={true}
+          barTintColor='white'/>
         <RefreshableListView
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           loadData={this._refresh.bind(this)}
           onEndReached={this._loadmore.bind(this)}
-          onEndReachedThreshold = {29}
-        />
-        {spinner}
+          onEndReachedThreshold = {29}/>
+        {loadmoreAnimation}
       </View>
     )
   }
@@ -113,7 +118,7 @@ class HistoryList extends Component {
   async _refresh () {
     this._updateDate()
     var contentData = await this.getContent(this.LAST_DATE)
-    
+
     this.setState({
       dataArray: contentData,
       dataSource: this.state.dataSource.cloneWithRows(contentData),
@@ -190,7 +195,7 @@ class HistoryList extends Component {
 
   _skipIntoContent (contentData) {
     this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
-      title: contentData.date,
+      name: contentData.date,
       component: DailyContent,
       passProps: {contentData}// 传递的参数（可选）
     })
@@ -212,7 +217,7 @@ var styles = StyleSheet.create({
   },
   thumbnail: {
     width: null, // 配合alignSelf实现宽度上 match_parent
-    height: 200,
+    height: 260,
     alignSelf: 'stretch'
   },
   title: {// alignSelf 默认是center
@@ -233,6 +238,9 @@ var styles = StyleSheet.create({
   border: {// debugging tools for layout
     borderColor: 'red',
     borderWidth: 2
+  },
+  indicator: {
+    height: 50
   }
 
 })
