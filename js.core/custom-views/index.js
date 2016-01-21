@@ -31,7 +31,8 @@ module.exports = React.createClass({
     barBottomColor: PropTypes.string,
     barBottomThickness: PropTypes.number,
     backIcon: PropTypes.bool,
-    backName: PropTypes.string
+    backName: PropTypes.string,
+    barOpacity: PropTypes.number
   },
 
   getDefaultProps () { // 返回默认的一些属性值
@@ -51,7 +52,8 @@ module.exports = React.createClass({
       backTextColor: '#666',
       statusbarPadding: true,
       barBottomColor: '#d4d4d4',
-      barBottomThickness: 0
+      barBottomThickness: 0,
+      barOpacity: 1
     }
   },
 
@@ -64,7 +66,7 @@ module.exports = React.createClass({
               height: this.props.statusbarPadding ? NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT : NAV_BAR_HEIGHT,
               borderColor: this.props.barBottomColor,
               borderBottomWidth: this.props.barBottomThickness,
-              opacity: 1
+              opacity: this.props.barOpacity
             },
             this.props.statusbarPadding ? { paddingTop: STATUS_BAR_HEIGHT } : {}]}>
         {
