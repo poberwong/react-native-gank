@@ -31,10 +31,10 @@ module.exports = React.createClass({
     barBottomColor: PropTypes.string,
     barBottomThickness: PropTypes.number,
     backIcon: PropTypes.bool,
-    backName: PropTypes.string,
+    backName: PropTypes.string
   },
 
-  getDefaultProps () {
+  getDefaultProps () { // 返回默认的一些属性值
     return {
       title: 'title',
       backFunc () {},
@@ -45,14 +45,14 @@ module.exports = React.createClass({
       actionName: '',
       actionFunc () {},
       actionTextColor: '#666',
-      backHidden: false,
-      backIcon: true,
+      backHidden: false, // 控制是否出现左侧菜单
+      backIcon: true, // 控制是选择icon还是text
       backName: 'back',
       backTextColor: '#666',
       statusbarPadding: true,
       barBottomColor: '#d4d4d4',
-      barBottomThickness: 0.5,
-    };
+      barBottomThickness: 0
+    }
   },
 
   render () {
@@ -70,7 +70,7 @@ module.exports = React.createClass({
         {
           !this.props.backHidden ?
             <TouchableOpacity
-              style={this.props.backIcon ? styles.iconWrapper : styles.backBtn}
+              style={styles.backWrapper}
               onPress={this.props.backFunc}>
               {
                 this.props.backIcon ?

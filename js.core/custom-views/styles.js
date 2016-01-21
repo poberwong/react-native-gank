@@ -1,25 +1,22 @@
-'use strict';
+'use strict'
 
-let React = require('react-native');
-
-const HEIGHT = 4;
+let React = require('react-native')
 
 module.exports = React.StyleSheet.create({
   navbar: {
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
-    height: HEIGHT
   },
 
-  iconWrapper: {
-    width: 30,
-    height: 30,
-    // justifyContent: 'center',
+  backWrapper: {
+    height: 25,
+    flex: 1,
+    justifyContent: 'center',
     // alignItems: 'center',
     position: 'absolute',
-    left: 10,
-    paddingTop: 3//旋转后，会失去居中，产生 根号2/2-0.5倍的偏移
-    // bottom: 6
+    borderColor: 'red',
+    borderWidth: 2,
+    left: 12,
   },
 
   icon: {
@@ -27,29 +24,32 @@ module.exports = React.StyleSheet.create({
     height: 14,
     borderLeftWidth: 2,
     borderBottomWidth: 2,
-    transform: [{rotate:'45deg'}]
+    transform: [{rotate: '45deg'}]
   },
 
   title: {
     fontSize: 18,
     textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignSelf: 'center',
+    // justifyContent: 'center',
   },
 
   actionBtn: {
+    height: 25,
+    flex: 1,
     position: 'absolute',
-    right: 10,
-    bottom: 12
+    right: 12,
+    bottom: 8,
+    borderColor: 'red',
+    borderWidth: 2
   },
 
   backBtn: {
     position: 'absolute',
-    left: 10,
-    bottom: 12
+    left: 12,
   },
 
   actionName: {
-    fontSize: 14
+    fontSize: 18
   }
 });

@@ -113,6 +113,9 @@ class HistoryList extends Component {
       <View style={styles.container}>
         <NavigationBar title='History'
           backHidden={false}
+          backIcon={true}
+          backName='back'
+          actionName='Next'
           barTintColor='white'/>
         {content}
         {loadmoreAnimation}
