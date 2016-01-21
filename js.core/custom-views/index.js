@@ -82,7 +82,7 @@ module.exports = React.createClass({
         <Text style={[styles.title, {color:this.props.titleTextColor}]}>{this.props.title}</Text>
         {
           this.props.actionName ?
-          <TouchableOpacity style={styles.actionBtn} onPress={this.props.actionFunc.bind(this)}>
+          <TouchableOpacity style={[styles.actionBtn, {bottom: (NAV_BAR_HEIGHT-23)/2}]} onPress={this.props.actionFunc.bind(this)}>
             <Text style={[styles.actionName, { color: this.props.actionTextColor }]}>{this.props.actionName}</Text>
           </TouchableOpacity> : null
         }

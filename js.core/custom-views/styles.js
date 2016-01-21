@@ -9,14 +9,12 @@ module.exports = React.StyleSheet.create({
   },
 
   backWrapper: {
-    height: 25,
+    height: 23,
     flex: 1,
     justifyContent: 'center',
     // alignItems: 'center',
     position: 'absolute',
-    borderColor: 'red',
-    borderWidth: 2,
-    left: 12,
+    left: 12
   },
 
   icon: {
@@ -30,23 +28,20 @@ module.exports = React.StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'center',
-    alignSelf: 'center',
+    alignSelf: 'center'
     // justifyContent: 'center',
   },
 
   actionBtn: {
-    height: 25,
+    height: 23,
     flex: 1,
     position: 'absolute',
-    right: 12,
-    bottom: 8,
-    borderColor: 'red',
-    borderWidth: 2
+    right: 12
   },
 
   backBtn: {
     position: 'absolute',
-    left: 12,
+    left: 12
   },
 
   actionName: {
