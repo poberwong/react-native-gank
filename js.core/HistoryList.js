@@ -3,7 +3,7 @@ import React from 'react-native'
 import DateUtils from './utils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
-import NavigationBar from 'rn-navbar'
+import NavigationBar from './custom-views/index'
 
 var {
   StyleSheet,
@@ -112,7 +112,7 @@ class HistoryList extends Component {
     return (
       <View style={styles.container}>
         <NavigationBar title='History'
-          backHidden={true}
+          backHidden={false}
           barTintColor='white'/>
         {content}
         {loadmoreAnimation}
