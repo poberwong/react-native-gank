@@ -3,7 +3,7 @@ import React from 'react-native'
 import DateUtils from './utils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
-import NavigationBar from './custom-views/index'
+import NavigationBar from './custom-views/react-native-navigationbar/index'
 
 var {
   StyleSheet,
