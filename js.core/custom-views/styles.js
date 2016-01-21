@@ -2,7 +2,7 @@
 
 let React = require('react-native');
 
-const HEIGHT = 44;
+const HEIGHT = 4;
 
 module.exports = React.StyleSheet.create({
   navbar: {
@@ -14,11 +14,12 @@ module.exports = React.StyleSheet.create({
   iconWrapper: {
     width: 30,
     height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     position: 'absolute',
     left: 10,
-    bottom: 6
+    paddingTop: 3//旋转后，会失去居中，产生 根号2/2-0.5倍的偏移
+    // bottom: 6
   },
 
   icon: {

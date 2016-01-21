@@ -47,7 +47,7 @@ class DailyContent extends Component {
             scrollEventThrottle={10}
             bounces={false}>
           <Image source= {{uri: thumbnail}} style={styles.image}/>
-           <Text>
+           <Text style={styles.text}>
           Blake Tollison Shelton (born June 18, 1976)[1] is an American country music singer and television personality. In 2001, he made his debut with the single "Austin". The lead-off single from his self-titled debut album, "Austin" spent five weeks at number one on the Billboard Hot Country Songs chart. The gold-certified debut album also produced two more top 20 hits ("All Over Me" and "Ol' Red").[1] Although the album was released on Giant Records Nashville, he was transferred to Warner Bros. Records Nashville after Giant closed in late 2001.
   
   His second and third albums, 2003's The Dreamer and 2004's Blake Shelton's Barn & Grill, were each certified gold as well.[1] His fourth album, Pure BS (2007), was re-issued in 2008 with a cover of Michael Bublé's pop hit "Home" as one of the bonus tracks.[2] His fifth album, Startin' Fires was released in November 2008.[1] It was followed by the extended plays Hillbilly Bone and All About Tonight in 2010, and the albums Red River Blue in 2011.[3] Based on a True Story... in 2013, and Bringing Back the Sunshine in 2014. Overall, Blake Shelton has charted 24 country singles, including 15 number ones. The 11th No. 1 ("Doin' What She Likes") broke "the record for the most consecutive No. 1 singles in the Country Airplay chart's 24-year history".[4] He is a six-time Grammy Award nominee.

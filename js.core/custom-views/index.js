@@ -64,7 +64,7 @@ module.exports = React.createClass({
               height: this.props.statusbarPadding ? NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT : NAV_BAR_HEIGHT,
               borderColor: this.props.barBottomColor,
               borderBottomWidth: this.props.barBottomThickness,
-              opacity: 0.5
+              opacity: 1
             },
             this.props.statusbarPadding ? { paddingTop: STATUS_BAR_HEIGHT } : {}]}>
         {
