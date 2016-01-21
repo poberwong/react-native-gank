@@ -32,7 +32,8 @@ module.exports = React.createClass({
     barBottomThickness: PropTypes.number,
     backIcon: PropTypes.bool,
     backName: PropTypes.string,
-    barOpacity: PropTypes.number
+    barOpacity: PropTypes.number,
+    barStyle: PropTypes.number // add extended style for navigationBar
   },
 
   getDefaultProps () { // 返回默认的一些属性值
@@ -53,7 +54,8 @@ module.exports = React.createClass({
       statusbarPadding: true,
       barBottomColor: '#d4d4d4',
       barBottomThickness: 0,
-      barOpacity: 1
+      barOpacity: 1,
+      barStyle: 0
     }
   },
 
@@ -68,7 +70,7 @@ module.exports = React.createClass({
               borderBottomWidth: this.props.barBottomThickness,
               opacity: this.props.barOpacity
             },
-            this.props.statusbarPadding ? { paddingTop: STATUS_BAR_HEIGHT } : {}]}>
+            this.props.statusbarPadding ? { paddingTop: STATUS_BAR_HEIGHT } : {}, this.props.barStyle]}>
         {
           !this.props.backHidden ?
             <TouchableOpacity
