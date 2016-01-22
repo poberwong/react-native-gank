@@ -12,6 +12,8 @@ var {
     Text
    } = React
 
+const HEADER_HEIGHT = 400
+
 class DailyContent extends Component {
   constructor (props) {
     super(props)
@@ -22,7 +24,7 @@ class DailyContent extends Component {
   }
 
   onScroll (event) {
-    const MAX = 360 - 64
+    const MAX = HEADER_HEIGHT - 64
     let y = event.nativeEvent.contentOffset.y
     if (y > MAX) {
       y = MAX
@@ -51,7 +53,7 @@ class DailyContent extends Component {
             onScroll={this.onScroll.bind(this)}
             scrollEventThrottle={10}
             bounces={false}>
-          <Image source= {{uri: thumbnail}} style={styles.image}/>
+          <Image source= {{uri: thumbnail}} style={styles.headerImage}/>
           </ScrollView>
           {Header}
         </View>
@@ -71,8 +73,8 @@ var styles = StyleSheet.create({
     right: 0,
     position: 'absolute'
   },
-  image: {
-    height: 360,
+  headerImage: {
+    height: HEADER_HEIGHT,
     // width: null,
     // alignSelf: 'stretch'
   },

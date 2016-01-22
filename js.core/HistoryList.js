@@ -1,6 +1,7 @@
 'use strict'
 import React from 'react-native'
-import DateUtils from './utils'
+import DateUtils from './utils/DateUtils'
+import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
@@ -15,6 +16,11 @@ var {
   Text,
   Component
 } = React
+
+// var {
+//   RequestUtils,
+//   DateUtils
+// } = Utils
 
 /*
 date format: 2015/07/22
@@ -41,10 +47,6 @@ date json array:
 date可以使用第一次请求的得来的数据
 */
 
-const API_DATE_BEFORE = 'http://gank.avosapps.com/api/get/'
-const API_DAILY = 'http://gank.avosapps.com/api/day/'
-var PAGE_SIZE = 10
-
 class HistoryList extends Component {
 
   constructor (props) {
@@ -57,33 +59,12 @@ class HistoryList extends Component {
     }
   }
 
-  _convertDate (date: string) { // change the date like '2015-11-05' into '2015/11/05'
-    return date.replace(new RegExp('-', 'g'), '/') // 居然是一个一个替换,使用正则表达式解决方案
-  }
-
   _genDailyAPI (date: string) {
-    return API_DAILY + date
+    return RequestUtils.API_DAILY + date
   }
 
   componentDidMount () {
     this._refresh()
-  }
-
-  async fetchData (url: string) {
-    try {
-      let response = await fetch(url)
-      let responseData = await response.json()
-			// 就是把一个javascript对象转换为JSON字符串
-      return responseData
-    } catch (error) {
-      console.log('data load failed :' + error)
-    }
-/*    fetch(url)
-    	.then((response) => response.json())
-    	.then((responseData) => {
-    		responseData;
-    		convert(responseData)
-    	};*/
   }
 
   render () {
@@ -138,7 +119,7 @@ class HistoryList extends Component {
   }
 
   async getContent (lastDate) {
-    var responseData = await this.fetchData(API_DATE_BEFORE + PAGE_SIZE + '/before/' + lastDate)// 返回json对象
+    var responseData = await RequestUtils.fetchData(RequestUtils.API_DATE_BEFORE + RequestUtils.PAGE_SIZE + '/before/' + lastDate)// 返回json对象
     // console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
     /* for(var date of responseData.results){
       console.log('converted data is '+ this._convertDate(date));
@@ -172,7 +153,7 @@ class HistoryList extends Component {
     })
 
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-    var loadedContent = await this.getContent(this._convertDate(lastDate))
+    var loadedContent = await this.getContent(DateUtils.convertDate(lastDate))
     var newContent = this.state.dataArray
     // newContent.push(loadedContent)//???居然不能直接push一个数组
     for (let element of loadedContent) {
@@ -195,8 +176,7 @@ class HistoryList extends Component {
           <Text style={styles.date}>{contentData.date}</Text>
           <Text style={[styles.title]}>{contentData.title}</Text>
           <Image source={{uri: contentData.thumbnail}}
-               style={styles.thumbnail}
-        />
+               style={styles.thumbnail}/>
         </View>
       </TouchableHighlight>
     )
@@ -207,7 +187,7 @@ class HistoryList extends Component {
       name: contentData.date,
       component: DailyContent,
       passProps: {contentData}// 传递的参数（可选）
-    })
+    })// push route对象
   }
 
 }

@@ -6,7 +6,7 @@
 
 var React = require('react-native')
 import HistoryList from './js.core/HistoryList'
-import DateUtils from './js.core/utils'
+import DateUtils from './js.core/utils/DateUtils'
 
 var {
   AppRegistry,
@@ -29,6 +29,7 @@ class ReactNativeGank extends Component {
           component: HistoryList
         }}
         renderScene={(route, navigator) => {
+          //route={component: xxx, name: xxx, ...}
           return <route.component route={route} navigator={navigator} {...route.passProps}/>
         }}/>
     )
