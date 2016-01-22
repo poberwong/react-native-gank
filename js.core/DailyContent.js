@@ -36,6 +36,7 @@ class DailyContent extends Component {
   }
 
   render () {
+    console.log("test: " + this.props.test)
     var contentData = this.props.contentData
     var thumbnail = (typeof contentData.thumbnail !== 'undefined') ? contentData.thumbnail : ''
 

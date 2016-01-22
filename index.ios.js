@@ -28,8 +28,8 @@ class ReactNativeGank extends Component {
         initialRoute={{
           component: HistoryList
         }}
-        renderScene={(route, navigator) => {
-          //route={component: xxx, name: xxx, ...}
+        renderScene={(route, navigator) => { // 用来渲染navigator栈顶的route里的component页面
+          // route={component: xxx, name: xxx, ...}， navigator
           return <route.component route={route} navigator={navigator} {...route.passProps}/>
         }}/>
     )
