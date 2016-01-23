@@ -185,7 +185,7 @@ class HistoryList extends Component {
   _skipIntoContent (contentData) {
     this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
       component: DailyContent,
-      passProps: {contentData, 'test': 110}// 传递的参数（可选）,{}里都是键值对  ps: test是关键字
+      passProps: {contentData}// 传递的参数（可选）,{}里都是键值对  ps: test是关键字
     })// push一个route对象到navigator中
   }
 

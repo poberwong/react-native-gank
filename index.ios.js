@@ -5,7 +5,7 @@
 'use strict'
 
 var React = require('react-native')
-import HistoryList from './js.core/HistoryList'
+import HistoryList from './js.core/HomePage'
 import DateUtils from './js.core/utils/DateUtils'
 
 var {
@@ -29,8 +29,8 @@ class ReactNativeGank extends Component {
           component: HistoryList
         }}
         renderScene={(route, navigator) => { // 用来渲染navigator栈顶的route里的component页面
-          // route={component: xxx, name: xxx, ...}， navigator
-          return <route.component route={route} navigator={navigator} {...route.passProps}/>
+          // route={component: xxx, name: xxx, ...}， navigator.......route 用来在对应界面获取其他键值
+          return <route.component navigator={navigator} route={route} {...route.passProps}/>// {...route.passProps}即就是把passProps里的键值对全部以给属性赋值的方式展开 如：test={10}
         }}/>
     )
   }
