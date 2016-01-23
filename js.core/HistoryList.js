@@ -72,7 +72,10 @@ class HistoryList extends Component {
       <View style={styles.container}>
         <NavigationBar title='History'
           backHidden={false}
-          barTintColor='white'/>
+          barTintColor='white'
+          backFunc={() => {
+            this.props.navigator.pop()
+          }}/>
         <RefreshableListView
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
@@ -82,6 +85,10 @@ class HistoryList extends Component {
         {loadmoreAnimation}
       </View>
     )
+  }
+
+  _pop(){
+
   }
 
   _updateDate () {
@@ -102,6 +109,7 @@ class HistoryList extends Component {
   }
 
   async _loadmore () {
+    console.log('loadmore is invoked')
     if (this.canloadMore) {
       this.setState({
         loadMore: true

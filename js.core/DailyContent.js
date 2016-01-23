@@ -45,7 +45,10 @@ class DailyContent extends Component {
           backIcon={true}
           barTintColor='white'
           barOpacity= {this.state.opacity}
-          barStyle= {styles.navbar}/>)
+          barStyle= {styles.navbar}
+          backFunc={() => {
+            this.props.navigator.pop()
+          }}/>)
 
     return (
         <View style= {styles.container}>
