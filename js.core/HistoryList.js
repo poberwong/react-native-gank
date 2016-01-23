@@ -51,8 +51,10 @@ class HistoryList extends Component {
 
   constructor (props) {
     super(props)
+    this.canloadMore = false
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
+      dataArray: this.props.contentDataGroup,
       loadMore: false
     }
   }
@@ -65,7 +67,7 @@ class HistoryList extends Component {
               hidden='true'
               size='small'/>)
     : (<View/>)
-
+    console.log('current loadMore: '+ this.state.loadMore)
     return (
       <View style={styles.container}>
         <NavigationBar title='History'
@@ -100,25 +102,29 @@ class HistoryList extends Component {
   }
 
   async _loadmore () {
-    this.setState({
-      loadMore: true
-    })
+    if (this.canloadMore) {
+      this.setState({
+        loadMore: true
+      })
+      console.log('execute')
+      var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
+      console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
+      var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
 
-    var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-    var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
-    console.log('loaded' + loadedContentGroup)
-    var newContent = this.state.dataArray
-    // newContent.push(loadedContent)//???居然不能直接push一个数组
-    for (let element of loadedContentGroup) {
-      newContent.push(element)
+      var newContent = this.state.dataArray
+      // newContent.push(loadedContent)//???居然不能直接push一个数组
+      for (let element of loadedContentGroup) {
+        newContent.push(element)
+      }
+
+      this.setState({
+        dataArray: newContent,
+        dataSource: this.state.dataSource.cloneWithRows(newContent),
+        loadMore: false
+      })
+    } else {
+      this.canloadMore = true
     }
-
-    console.log('newsize' + lastDate)
-    this.setState({
-      dataArray: newContent,
-      dataSource: this.state.dataSource.cloneWithRows(newContent),
-      loadMore: false
-    })
   }
 
   _renderItem (contentData, sectionID, highlightRow) {
