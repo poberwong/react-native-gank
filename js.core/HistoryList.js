@@ -59,10 +59,6 @@ class HistoryList extends Component {
     }
   }
 
-  _genDailyAPI (date: string) {
-    return RequestUtils.API_DAILY + date
-  }
-
   componentDidMount () {
     this._refresh()
   }
@@ -107,44 +103,15 @@ class HistoryList extends Component {
 
   async _refresh () {
     this._updateDate()
-    var contentData = await this.getContent(this.LAST_DATE)
-
+    var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
+    console.log(contentDataGroup)
     this.setState({
-      dataArray: contentData,
-      dataSource: this.state.dataSource.cloneWithRows(contentData),
+      dataArray: contentDataGroup,
+      dataSource: this.state.dataSource.cloneWithRows(contentDataGroup),
       isLoading: false
     })
     // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
-  }
-
-  async getContent (lastDate) {
-    var responseData = await RequestUtils.fetchData(RequestUtils.API_DATE_BEFORE + RequestUtils.PAGE_SIZE + '/before/' + lastDate)// 返回json对象
-    // console.log('responseData is '+ JSON.stringify(responseData));//JSON.stringify : converts a JavaScript value to a JSON string
-    /* for(var date of responseData.results){
-      console.log('converted data is '+ this._convertDate(date));
-    } */
-    var contentUrl = responseData.results.map(DateUtils.convertDate).map(this._genDailyAPI)// 使用到了数组的map特性
-
-    var contentData = []
-    var promises = contentUrl.map(
-        function (url) {
-          return fetch (url).then((response) => response.json())
-        }
-      )
-
-    await Promise.all(promises).then((responseDatas) => {
-      for (let i = 0; i < responseDatas.length; i++) {
-        var tempItem = {}
-        console.log('promise result: ' + responseDatas.length + JSON.stringify(responseDatas[i]))
-        tempItem.title = responseDatas[i].results.休息视频[0].desc
-        tempItem.thumbnail = responseDatas[i].results.福利[0].url
-        tempItem.date = responseData.results[i]
-        contentData.push(tempItem)
-        console.log('promise after: ' + tempItem.title)
-      }
-    })
-    return contentData
   }
 
   async _loadmore () {
@@ -153,10 +120,10 @@ class HistoryList extends Component {
     })
 
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-    var loadedContent = await this.getContent(DateUtils.convertDate(lastDate))
+    var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
     var newContent = this.state.dataArray
     // newContent.push(loadedContent)//???居然不能直接push一个数组
-    for (let element of loadedContent) {
+    for (let element of loadedContentGroup) {
       newContent.push(element)
     }
 
@@ -174,8 +141,8 @@ class HistoryList extends Component {
       }>
         <View style={styles.itemContainer}>
           <Text style={styles.date}>{contentData.date}</Text>
-          <Text style={[styles.title]}>{contentData.title}</Text>
-          <Image source={{uri: contentData.thumbnail}}
+          <Text style={[styles.title]}>{contentData.results.休息视频[0].desc}</Text>
+          <Image source={{uri: contentData.results.福利[0].url}}
                style={styles.thumbnail}/>
         </View>
       </TouchableHighlight>

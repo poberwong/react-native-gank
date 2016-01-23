@@ -37,7 +37,7 @@ class DailyContent extends Component {
 
   render () {
     var contentData = this.props.contentData
-    var thumbnail = (typeof contentData.thumbnail !== 'undefined') ? contentData.thumbnail : ''
+    var thumbnail = (typeof contentData.results.福利[0].url !== 'undefined') ? contentData.results.福利[0].url : ''
 
     var Header = (
       <NavigationBar title= {contentData.date}
