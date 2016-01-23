@@ -5,7 +5,7 @@
 'use strict'
 
 var React = require('react-native')
-import HistoryList from './js.core/HistoryList'
+import HistoryList from './js.core/HomePage'
 import DateUtils from './js.core/utils/DateUtils'
 
 var {

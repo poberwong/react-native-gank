@@ -40,6 +40,7 @@ const RequestUtils = {
       })
       responseDatasCopy = responseDatas
     })
+    console.log(responseDatasCopy)
     return responseDatasCopy
   }
 }

@@ -51,16 +51,10 @@ class HistoryList extends Component {
 
   constructor (props) {
     super(props)
-    this.LAST_DATE = DateUtils.getCurrentDate()
     this.state = {
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}), // 先初始化一个空的数据集合
-      isLoading: true,
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       loadMore: false
     }
-  }
-
-  componentDidMount () {
-    this._refresh()
   }
 
   render () {
@@ -72,26 +66,17 @@ class HistoryList extends Component {
               size='small'/>)
     : (<View/>)
 
-    let content = this.state.isLoading
-    ? (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <ActivityIndicatorIOS
-              style={styles.indicator}
-              hidden='true'
-              size='large'/>
-        </View>)
-    : (<RefreshableListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderItem.bind(this)}
-          loadData={this._refresh.bind(this)}
-          onEndReached={this._loadmore.bind(this)}
-          onEndReachedThreshold = {29}/>)
-
     return (
       <View style={styles.container}>
         <NavigationBar title='History'
           backHidden={false}
           barTintColor='white'/>
-        {content}
+        <RefreshableListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderItem.bind(this)}
+          loadData={this._refresh.bind(this)}
+          onEndReached={this._loadmore.bind(this)}
+          onEndReachedThreshold = {29}/>
         {loadmoreAnimation}
       </View>
     )
@@ -121,6 +106,7 @@ class HistoryList extends Component {
 
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
     var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
+    console.log('loaded' + loadedContentGroup)
     var newContent = this.state.dataArray
     // newContent.push(loadedContent)//???居然不能直接push一个数组
     for (let element of loadedContentGroup) {
