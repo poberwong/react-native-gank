@@ -78,7 +78,7 @@ module.exports = React.createClass({
               onPress={this.props.backFunc}>
               {
                 this.props.backIcon ?
-                  <View style={[styles.icon, {borderColor:this.props.backColor}]} />:
+                  <View style={[styles.icon, {borderColor: this.props.backColor}]} />:
                   <Text style={[styles.actionName, {color: this.props.backColor}]}>{this.props.backName}</Text>
               }
             </TouchableOpacity> : null

@@ -8,6 +8,7 @@ var {
     ScrollView,
     View,
     Component,
+    TouchableOpacity,
     Image,
     Text
    } = React
@@ -108,12 +109,14 @@ $ npm install
 $ react-native android
           </Text>
           </ScrollView>
+          <TouchableOpacity style={styles.backWrapper}>
+            <View style={styles.backIcon}/>
+          </TouchableOpacity>
           {Header}
         </View>
     )
   }
 }
-
 
 var styles = StyleSheet.create({
   container: {
@@ -141,6 +144,22 @@ var styles = StyleSheet.create({
     lineHeight: 24,
     alignSelf: 'center',
     marginTop: 30
+  },
+  backWrapper: {
+    width: 25,
+    height: 25,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 36,
+    left: 12
+  },
+  backIcon: {
+    width: 14,
+    height: 14,
+    borderColor: '#777',
+    borderLeftWidth: 2,
+    borderBottomWidth: 2,
+    transform: [{rotate: '45deg'}]
   }
 })
 
