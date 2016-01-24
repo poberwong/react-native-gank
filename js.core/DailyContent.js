@@ -2,6 +2,7 @@
 
 import React from 'react-native'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
+import WebViewPage from './WebViewPage'
 
 var {
     StyleSheet,
@@ -83,7 +84,13 @@ class DailyContent extends Component {
   getItems(contentData, category){
     var itemViews = []
     for(var item of contentData.results[category]){
-      itemViews.push(<Text style={styles.title}>{'*  ' + item.desc + '  ( ' + item.who + ' )'}</Text>)
+      itemViews.push(<Text style={styles.title} onPress={()=>{
+        this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
+          component: WebViewPage,
+          title: item.desc,
+          url: item.url
+        })
+      }}>{'*  ' + item.desc + '  ( ' + item.who + ' )'}</Text>)
     }
     return itemViews
   }
