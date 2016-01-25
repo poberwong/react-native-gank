@@ -9,7 +9,7 @@ module.exports = React.StyleSheet.create({
   },
 
   backWrapper: {
-    height: 23,
+    height: 20,
     flex: 1,
     justifyContent: 'center',
     // alignItems: 'center',
@@ -35,7 +35,7 @@ module.exports = React.StyleSheet.create({
   },
 
   actionBtn: {
-    height: 23,
+    height: 20,
     flex: 1,
     position: 'absolute',
     right: 12

@@ -131,7 +131,7 @@ var styles = StyleSheet.create({
     transform: [{rotate: '45deg'}],
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: 36,
+    top: 34,
     left: 12
   }
 })
