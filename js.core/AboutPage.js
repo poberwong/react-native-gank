@@ -18,7 +18,7 @@ class AboutPage extends Component {
         ），一篇程序猿精选干货。</Text>
         <Text style={{marginTop: 13, lineHeight: 18}}>数据内容来源于代码家的 
           <Text textDecorationLine ='underline'> http://gank.io </Text>
-        , PoberWong 完成React－Native的开发，非常感谢Vear的设计和Android端。
+        , PoberWong 完成React－Native的开发，非常感谢Vear的设计和指点。
         </Text>
         <Text style={{marginTop: 13, lineHeight: 18}}>My Github: 
           <Text textDecorationLine ='underline'> http://github.com/Bob1993 </Text>
@@ -63,7 +63,9 @@ var styles = StyleSheet.create({
 
   imgLauncher: {
     alignSelf: 'center',
-    marginTop: 114
+    marginTop: 114,
+    width: 90,
+    height: 90
   },
 
   contentContainer: {
@@ -88,7 +90,7 @@ var styles = StyleSheet.create({
 
   aboutText: {
     fontSize: 15,
-    marginTop: 40,
+    marginTop: 30,
     marginBottom: 5,
     marginLeft: 8,
     color: '#434243'
