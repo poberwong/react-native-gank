@@ -84,7 +84,8 @@ class DailyContent extends Component {
   getItems(contentData, category){
     var itemViews = []
     for(var item of contentData.results[category]){
-      itemViews.push(<Text style={styles.title} onPress={()=>{
+      console.log('from title:' + item.desc)
+      itemViews.push(<Text style={styles.title} onPress={ () => {
         this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
           component: WebViewPage,
           title: item.desc,
