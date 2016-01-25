@@ -41,6 +41,13 @@ module.exports = React.StyleSheet.create({
     right: 12
   },
 
+  actionIcon: {
+    height: 35,
+    width: 35,
+    position: 'absolute',
+    right: 3,
+  },
+
   backBtn: {
     position: 'absolute',
     left: 12
@@ -49,4 +56,4 @@ module.exports = React.StyleSheet.create({
   actionName: {
     fontSize: 18
   }
-});
+})

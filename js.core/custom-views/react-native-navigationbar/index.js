@@ -1,18 +1,19 @@
-'use strict';
+'use strict'
 
 // Module dependencies
-let React = require('react-native');
-let styles = require('./styles');
+let React = require('react-native')
+let styles = require('./styles')
 
 let {
   Text,
   View,
+  Image,
   TouchableOpacity,
   PropTypes
-} = React;
+} = React
 
-const STATUS_BAR_HEIGHT = 20;
-const NAV_BAR_HEIGHT = 44;
+const STATUS_BAR_HEIGHT = 20
+const NAV_BAR_HEIGHT = 44
 
 module.exports = React.createClass({
 
@@ -22,6 +23,7 @@ module.exports = React.createClass({
     tintColor: PropTypes.string,
     titleTextColor: PropTypes.string,
     barTintColor: PropTypes.string,
+    actionIcon: PropTypes.bool,
     actionName: PropTypes.string,
     actionFunc: PropTypes.func,
     actionTextColor: PropTypes.string,
@@ -44,6 +46,7 @@ module.exports = React.createClass({
       backColor: '#777',
       titleTextColor: '#333',
       barTintColor: 'white',
+      actionIcon: false,
       actionName: '',
       actionFunc () {},
       actionTextColor: '#666',
@@ -72,25 +75,31 @@ module.exports = React.createClass({
             },
             this.props.statusbarPadding ? { paddingTop: STATUS_BAR_HEIGHT } : {}, this.props.barStyle]}>
         {
-          !this.props.backHidden ?
-            <TouchableOpacity
+          !this.props.backHidden
+          ? <TouchableOpacity
               style={styles.backWrapper}
               onPress={this.props.backFunc}>
               {
-                this.props.backIcon ?
-                  <View style={[styles.icon, {borderColor: this.props.backColor}]} />:
-                  <Text style={[styles.actionName, {color: this.props.backColor}]}>{this.props.backName}</Text>
+                this.props.backIcon
+                ? <View style={[styles.icon, {borderColor: this.props.backColor}]} />
+                : <Text style={[styles.actionName, {color: this.props.backColor}]}>{this.props.backName}</Text>
               }
             </TouchableOpacity> : null
         }
         <Text style={[styles.title, {color: this.props.titleTextColor}]} numberOfLines={1}>{this.props.title}</Text>
         {
-          this.props.actionName ?
-          <TouchableOpacity style={[styles.actionBtn, {bottom: (NAV_BAR_HEIGHT-23)/2}]} onPress={this.props.actionFunc.bind(this)}>
+          this.props.actionName
+          ? <TouchableOpacity style={[styles.actionBtn, {bottom: (NAV_BAR_HEIGHT - 23 )/ 2}]} onPress={this.props.actionFunc.bind(this)}>
             <Text style={[styles.actionName, { color: this.props.actionTextColor }]}>{this.props.actionName}</Text>
           </TouchableOpacity> : null
         }
+        {
+          this.props.actionIcon
+          ? <TouchableOpacity style={[styles.actionIcon, {bottom: (NAV_BAR_HEIGHT - 40 )/ 2}]} onPress={this.props.actionFunc.bind(this)}>
+              <Image source={require('./add.png')}/>
+          </TouchableOpacity> : null
+        }
       </View>
-    );
+    )
   }
-});
+})
