@@ -5,12 +5,12 @@ let React = require('react-native')
 module.exports = React.StyleSheet.create({
   navbar: {
     // alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 
   backWrapper: {
     height: 20,
-    flex: 1,
+    width: 70,
     justifyContent: 'center',
     // alignItems: 'center',
     position: 'absolute',
@@ -26,8 +26,8 @@ module.exports = React.StyleSheet.create({
   },
 
   title: {
-    marginLeft: 50,
-    marginRight: 50,
+    marginLeft: 90,
+    marginRight: 90,
     fontSize: 18,
     textAlign: 'center',
     alignSelf: 'center'
