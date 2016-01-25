@@ -1,6 +1,7 @@
 'use strict'
 import React from 'react-native'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
+import WebViewPage from './WebViewPage'
 
 var {
   Component,
@@ -16,16 +17,32 @@ class AboutPage extends Component {
       <View style={styles.contentContainer}>
         <Text style={{lineHeight: 18}}>每天一张精选妹纸图、一个精选小视频（视频源地址播放，因为视频来源于包含各大平台。。。着实不好统一播放器。。。
         ），一篇程序猿精选干货。</Text>
-        <Text style={{marginTop: 13, lineHeight: 18}}>数据内容来源于代码家的 
-          <Text textDecorationLine ='underline'> http://gank.io </Text>
-        , PoberWong 完成React－Native的开发，非常感谢Vear的设计和指点。
+        <Text style={styles.contentText}>数据内容来源于代码家的 
+          <Text style={{textDecorationLine: 'underline'}}
+          onPress={() => {
+            this.props.navigator.push({
+              component: WebViewPage,
+              title: 'Gank.io',
+              url: 'http://gank.io'
+            })
+          }}
+          > http://gank.io </Text>
+        , PoberWong 完成React－Native的开发，非常感谢Veaer的设计和指点。
         </Text>
-        <Text style={{marginTop: 13, lineHeight: 18}}>My Github: 
-          <Text textDecorationLine ='underline'> http://github.com/Bob1993 </Text>
+        <Text style={styles.contentText}>My Github: 
+          <Text style={{textDecorationLine: 'underline'}}
+          onPress={() => {
+            this.props.navigator.push({
+              component: WebViewPage,
+              title: 'Gank.io',
+              url: 'http://gank.io'
+            })
+          }}
+          > http://github.com/Bob1993 </Text>
         </Text>
-        <Text style={{marginTop: 13, lineHeight: 18}}>Organization: 北京杰讯云动力科技有限公司</Text>
-        <Text style={{marginTop: 13, lineHeight: 18}}>本项目属于公司开源项目，使用纯React-Native开发，如果你觉得这对你学习React-Native有很大的帮助，我不介意适量打赏喔～ 欢迎来访我的Github...  </Text>
-        <Text style={{marginTop: 13, lineHeight: 18}}>支付宝: 15566261458 </Text>
+        <Text style={styles.contentText}>Organization: 北京杰讯云动力科技有限公司</Text>
+        <Text style={styles.contentText}>本项目属于公司开源项目，使用纯React-Native开发，如果你觉得这对你学习React-Native有很大的帮助，我不介意适量打赏喔～ 欢迎来访我的Github...  </Text>
+        <Text style={styles.contentText}>支付宝: 15566261458 </Text>
       </View>
       )
     return (
@@ -77,8 +94,8 @@ var styles = StyleSheet.create({
   },
 
   contentText: {
-    fontSize: 14,
-    color: 'white'
+    marginTop: 13,
+    lineHeight: 18
   },
 
   versionText: {
@@ -94,7 +111,7 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 8,
     color: '#434243'
-  }
+  },
 
 })
 
