@@ -3,6 +3,7 @@ import React from 'react-native'
 import DateUtils from './utils/DateUtils'
 import RequestUtils from './utils/RequestUtils'
 import HistoryList from './HistoryList'
+import WebViewPage from './WebViewPage'
 
 var {
     StyleSheet,
@@ -48,7 +49,14 @@ class HomePage extends Component {
           </View>
           <View style={styles.contentWrapper}>
             <TouchableHighlight style={{flex: 2, marginTop: 18}}
-              underlayColor={'#333333'}>
+              underlayColor={'#333333'}
+              onPress={() => {
+                this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
+                  component: WebViewPage,
+                  title: this.homePageContent.休息视频[0].desc,
+                  url: this.homePageContent.休息视频[0].url
+                })
+              }}>
               <View style={styles.content}>
                 <Text style={styles.videoTitle}>{this.homePageContent.休息视频[0].desc}</Text>
                 <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date + ' via.' + this.homePageContent.休息视频[0].who}</Text>
