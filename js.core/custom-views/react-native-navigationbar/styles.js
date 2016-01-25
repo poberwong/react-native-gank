@@ -4,7 +4,6 @@ let React = require('react-native')
 
 module.exports = React.StyleSheet.create({
   navbar: {
-    backgroundColor: 'black',
     // alignItems: 'center',
     justifyContent: 'center',
   },
@@ -27,6 +26,8 @@ module.exports = React.StyleSheet.create({
   },
 
   title: {
+    marginLeft: 50,
+    marginRight: 50,
     fontSize: 18,
     textAlign: 'center',
     alignSelf: 'center'
