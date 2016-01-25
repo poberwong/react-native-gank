@@ -37,10 +37,10 @@ class DailyContent extends Component {
   }
 
   render () {
-    var contentData = this.props.contentData
-    var thumbnail = (typeof contentData.results.福利[0].url !== 'undefined') ? contentData.results.福利[0].url : ''
+    let contentData = this.props.contentData
+    let thumbnail = (typeof contentData.results.福利[0].url !== 'undefined') ? contentData.results.福利[0].url : ''
 
-    var Header = (
+    let Header = (
       <NavigationBar title= {contentData.date}
           backHidden={false}
           backIcon={true}
@@ -69,31 +69,29 @@ class DailyContent extends Component {
   }
 
   _getViews(contentData){
-    var list = []
-    for(var category of contentData.category){
-      let section = 
-      (<View style={{flex: 1, backgroundColor:'white', margin: 8, padding: 15, borderRadius: 3}}>
+    return contentData.category.map((category, index) => (
+      <View key={index} style={styles.itemContainer}>
         <Text style={styles.category}>{category}</Text>
         {this.getItems(contentData, category)}
-      </View>)
-      list.push(section)
-    }
-    return list
+      </View>
+    ))
   }
 
-  getItems(contentData, category){
-    var itemViews = []
-    for(var item of contentData.results[category]){
-      console.log('from title:' + item.desc)
-      itemViews.push(<Text style={styles.title} onPress={ () => {
-        this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
-          component: WebViewPage,
-          title: item.desc,
-          url: item.url
-        })
-      }}>{'*  ' + item.desc + '  ( ' + item.who + ' )'}</Text>)
-    }
-    return itemViews
+  getItems (contentData, category) {
+    return contentData.results[category].map((item, index) => (
+      <Text
+        key={index}
+        style={styles.title}
+        onPress={ () => {
+          this.props.navigator.push({
+            component: WebViewPage,
+            title: item.desc,
+            url: item.url
+          })
+        }}>
+        *  {item.desc} ( {item.who} )
+      </Text>
+    ))
   }
 }
 
@@ -109,12 +107,19 @@ var styles = StyleSheet.create({
     position: 'absolute'
   },
   headerImage: {
-    height: HEADER_HEIGHT,
+    height: HEADER_HEIGHT
     // width: null,
     // alignSelf: 'stretch'
   },
+  itemContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    margin: 8,
+    padding: 15,
+    borderRadius: 3
+  },
   category: {
-    fontSize: 18,
+    fontSize: 18
   },
   title: {
     fontSize: 14,
