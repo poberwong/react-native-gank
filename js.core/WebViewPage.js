@@ -14,7 +14,6 @@ class WebViewPage extends Component {
   }
 
   render () {
-    console.log('title: '+this.props.title)
     return (
       <View style={{flex: 1}}>
         <NavigationBar title={this.props.title}

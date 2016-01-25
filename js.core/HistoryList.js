@@ -71,11 +71,21 @@ class HistoryList extends Component {
     console.log('current loadMore: '+ this.state.loadMore)
     return (
       <View style={styles.container}>
+        <RefreshableListView
+          dataSource={this.state.dataSource}
+          renderHeaderWrapper={this._renderHeader}
+          renderRow={this._renderItem.bind(this)}
+          loadData={this._refresh.bind(this)}
+          onEndReached={this._loadmore.bind(this)}
+          onEndReachedThreshold = {29}/>
+        {loadmoreAnimation}
         <NavigationBar
           backHidden={false}
           barTintColor='white'
+          barStyle={styles.navbar}
           title='History'
           actionName='About'
+          barOpacity={0.9}
           backFunc={() => {
             this.props.navigator.pop()
           }}
@@ -84,19 +94,8 @@ class HistoryList extends Component {
               component: AboutPage
             })
           }}/>
-        <RefreshableListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderItem.bind(this)}
-          loadData={this._refresh.bind(this)}
-          onEndReached={this._loadmore.bind(this)}
-          onEndReachedThreshold = {29}/>
-        {loadmoreAnimation}
       </View>
     )
-  }
-
-  _pop(){
-
   }
 
   _updateDate () {
@@ -157,6 +156,12 @@ class HistoryList extends Component {
     )
   }
 
+  _renderHeader () {
+    return (
+      <View style={{height: 64, backgroundColor: 'white'}}/>
+      )
+  }
+
   _skipIntoContent (contentData) {
     this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
       component: DailyContent,
@@ -170,6 +175,12 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#252528'
+  },
+  navbar: {
+    top: 0,
+    left: 0,
+    right: 0,
+    position: 'absolute'
   },
   itemContainer: {
     flexDirection: 'column',
