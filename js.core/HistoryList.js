@@ -5,6 +5,7 @@ import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import RefreshableListView from 'react-native-refreshable-listview'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
+import AboutPage from './AboutPage'
 
 var {
   StyleSheet,
@@ -70,11 +71,18 @@ class HistoryList extends Component {
     console.log('current loadMore: '+ this.state.loadMore)
     return (
       <View style={styles.container}>
-        <NavigationBar title='History'
+        <NavigationBar
           backHidden={false}
           barTintColor='white'
+          title='History'
+          actionName='About'
           backFunc={() => {
             this.props.navigator.pop()
+          }}
+          actionFunc={() => {
+            this.props.navigator.push({
+              component: AboutPage
+            })
           }}/>
         <RefreshableListView
           dataSource={this.state.dataSource}
@@ -161,7 +169,7 @@ class HistoryList extends Component {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: '#252528'
   },
   itemContainer: {
     flexDirection: 'column',

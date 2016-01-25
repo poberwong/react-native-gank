@@ -45,7 +45,7 @@ module.exports = React.StyleSheet.create({
     height: 35,
     width: 35,
     position: 'absolute',
-    right: 3,
+    right: 3
   },
 
   backBtn: {

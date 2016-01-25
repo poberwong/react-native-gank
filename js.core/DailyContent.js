@@ -44,9 +44,7 @@ class DailyContent extends Component {
       <NavigationBar title= {contentData.date}
           backHidden={false}
           backIcon={true}
-          barTintColor='black'
-          backColor='white'
-          titleTextColor='white'
+          barTintColor='white'
           barOpacity= {this.state.opacity}
           barStyle= {styles.navbar}
           backFunc={() => {
@@ -132,7 +130,7 @@ var styles = StyleSheet.create({
   backIcon: {
     width: 14,
     height: 14,
-    borderColor: 'white',
+    borderColor: '#777',
     borderLeftWidth: 2,
     borderBottomWidth: 2,
     transform: [{rotate: '45deg'}],
