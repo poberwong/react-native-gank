@@ -10,8 +10,8 @@ var {
     View,
     Component,
     Image,
-    ActivityIndicatorIOS,
     TouchableHighlight,
+    Animated,
     Text
    } = React
 
@@ -19,24 +19,40 @@ class HomePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      isLoading: true
+      isLoading: true,
+      fadeAnimLogo: new Animated.Value(0), // 设置动画初始值，生成Value对象
+      fadeAnimText0: new Animated.Value(0),
+      fadeAnimText1: new Animated.Value(0)
     }
   }
 
   async componentDidMount () {
+    let timing = Animated.timing
+    Animated.sequence([
+      timing(this.state.fadeAnimLogo, {
+        toValue: 1,
+        duration: 800
+      }),
+      timing(this.state.fadeAnimText0, {
+        toValue: 1,
+        duration: 800
+      }),
+      timing(this.state.fadeAnimText1, {
+        toValue: 1,
+        duration: 800
+      })]).start()
+
     this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
     this.homePageContent = this.contentDataGroup[0].results
-    this.setState({
-      isLoading: false
-    })
+    // this.setState({
+    //   isLoading: false
+    // })
   }
 
   render () {
     console.log('current :' + this.state.isLoading)
     let content = this.state.isLoading
-    ? (<View style={styles.indicatorWrapper}>
-          {this._welcome()}
-        </View>)
+    ? (this._welcome())
     : (<View style={styles.container}>
         <View style={styles.headerWrapper}>
             <Image source={{uri: this.homePageContent.福利[0].url}} style={{flex: 1}}/>
@@ -74,7 +90,53 @@ class HomePage extends Component {
   }
 
   _welcome () {
+    return (
+      <View style={styles.indicatorWrapper}>
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimLogo, // Binds directly
+            marginTop: 250,
+            transform: [{
+              translateX: this.state.fadeAnimLogo.interpolate({
+                inputRange: [0, 1],
+                outputRange: [120, 160]  // 0 : 150, 0.5 : 75, 1 : 0
+              })
+            }]
+          }}>
+          <Image source={require('./images/gank_launcher.png')} style={{width: 100, height: 100}}/>
+        </Animated.View>
 
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimText0,
+            position: 'absolute',
+            bottom: 50,
+            transform: [{
+              translateX: this.state.fadeAnimText0.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 35]
+              })
+            }]
+          }}>
+          <Text style={styles.footerText}>Supported by: Gank.io</Text>
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimText1,
+            position: 'absolute',
+            bottom: 30,
+            transform: [{
+              translateX: this.state.fadeAnimText1.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 35]
+              })
+            }]
+          }}>
+          <Text style={styles.footerText}>Powered by: 北京杰讯云动力科技有限公司</Text>
+        </Animated.View>
+      </View>
+      )
   }
 
   _skipIntoHistory (contentDataGroup) {
@@ -110,7 +172,7 @@ var styles = StyleSheet.create({
   },
   contentWrapper: {
     backgroundColor: '#252528',
-    flex: 1,
+    flex: 1
   },
   content: {
     backgroundColor: '#434243',
@@ -156,9 +218,11 @@ var styles = StyleSheet.create({
   },
   indicatorWrapper: {
     flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: 'black'
+  },
+  footerText: {
+    color: '#aaaaaa',
+    fontSize: 15
   }
 
 })
