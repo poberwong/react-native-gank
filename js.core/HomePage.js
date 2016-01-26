@@ -9,6 +9,7 @@ var {
     StyleSheet,
     View,
     Component,
+    Animated,
     Image,
     TouchableHighlight,
     Text
@@ -17,17 +18,56 @@ var {
 class HomePage extends Component {
   constructor (...args) {
     super(...args)
+    this.state = ({
+      isLoading: true,
+      fadeAnimLogo: new Animated.Value(0), // 设置动画初始值，生成Value对象
+      fadeAnimText0: new Animated.Value(0),
+      fadeAnimText1: new Animated.Value(0),
+      fadeAnimText2: new Animated.Value(1)
+    })
+  }
+
+  async componentDidMount () {
+    let timing = Animated.timing
+    Animated.sequence([
+      timing(this.state.fadeAnimLogo, {
+        toValue: 1,
+        duration: 800
+      }),
+      timing(this.state.fadeAnimText0, {
+        toValue: 1,
+        duration: 800
+      }),
+      timing(this.state.fadeAnimText1, {
+        toValue: 1,
+        duration: 800
+      }),
+      timing(this.state.fadeAnimText2, {
+        toValue: 0,
+        duration: 1200
+      })
+    ]).start(() => {
+        this.setState({
+          welcomeEnd: true
+        })
+    })
+
+    this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
+    this.homePageContent = this.contentDataGroup[0].results
+    this.setState({
+      isLoading: false
+    })
   }
 
   render () {
-    console.log('== render HomePage')
-    let homePageContent = this.props.contentDataGroup[0].results
-    return (
-      <View style={styles.container}>
+    console.log('current :' + this.state.isLoading)
+    let content = this.state.isLoading
+    ? (<View style={{backgroundColor: 'black', flex: 1}}/>)
+    : (<View style={styles.container}>
         <View style={styles.headerWrapper}>
-          <Image source={{uri: homePageContent.福利[0].url}} style={{flex: 1}}/>
-          <View style={styles.editorWrapper}>
-            <Text style={styles.imageEditors}>{'via.' + homePageContent.福利[0].who}</Text>
+            <Image source={{uri: this.homePageContent.福利[0].url}} style={{flex: 1}}/>
+            <View style={styles.editorWrapper}>
+              <Text style={styles.imageEditors}>{'via.' + this.homePageContent.福利[0].who}</Text>
             </View>
           </View>
           <View style={styles.contentWrapper}>
@@ -36,24 +76,85 @@ class HomePage extends Component {
               onPress={() => {
                 this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
                   component: WebViewPage,
-                  title: homePageContent.休息视频[0].desc,
-                  url: homePageContent.休息视频[0].url
+                  title: this.homePageContent.休息视频[0].desc,
+                  url: this.homePageContent.休息视频[0].url
                 })
               }}>
               <View style={styles.content}>
-                <Text style={styles.videoTitle}>{homePageContent.休息视频[0].desc}</Text>
-                <Text style={styles.dateAuthor}>{this.props.contentDataGroup[0].date + ' via.' + homePageContent.休息视频[0].who}</Text>
+                <Text style={styles.videoTitle}>{this.homePageContent.休息视频[0].desc}</Text>
+                <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date + ' via.' + this.homePageContent.休息视频[0].who}</Text>
                 <Text style={styles.toVideo}>--> 去看视频～</Text>
               </View>
             </TouchableHighlight>
             <TouchableHighlight style={styles.buttonStyle}
               underlayColor={'#333333'}
-              onPress={() => this._skipIntoHistory(this.props.contentDataGroup)}>
+              onPress={() => this._skipIntoHistory(this.contentDataGroup)}>
               <Text style={styles.toHistory}>查看往期</Text>
             </TouchableHighlight>
           </View>
-        </View>
-    )
+        </View>)
+
+    return (
+      <View style={styles.content}>
+        {content}
+        {this._welcome()}
+      </View>
+      )
+  }
+
+  _welcome () {
+    if (this.state.welcomeEnd) {
+      return null
+    };
+    return (
+      <Animated.View style={[styles.indicatorWrapper, {
+        opacity: this.state.fadeAnimText2
+      }]}>
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimLogo, // Binds directly
+            marginTop: 250,
+            transform: [{
+              translateX: this.state.fadeAnimLogo.interpolate({
+                inputRange: [0, 1],
+                outputRange: [120, 160]  // 0 : 150, 0.5 : 75, 1 : 0
+              })
+            }]
+          }}>
+          <Image source={require('./images/gank_launcher.png')} style={{width: 100, height: 100}}/>
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimText0,
+            position: 'absolute',
+            bottom: 50,
+            transform: [{
+              translateX: this.state.fadeAnimText0.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 35]
+              })
+            }]
+          }}>
+          <Text style={styles.footerText}>Supported by: Gank.io</Text>
+        </Animated.View>
+
+        <Animated.View
+          style={{
+            opacity: this.state.fadeAnimText1,
+            position: 'absolute',
+            bottom: 30,
+            transform: [{
+              translateX: this.state.fadeAnimText1.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 35]
+              })
+            }]
+          }}>
+          <Text style={styles.footerText}>Powered by: 北京杰讯云动力科技有限公司</Text>
+        </Animated.View>
+      </Animated.View>
+      )
   }
 
   _skipIntoHistory (contentDataGroup) {
@@ -135,6 +236,11 @@ var styles = StyleSheet.create({
   },
   indicatorWrapper: {
     flex: 1,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
     backgroundColor: 'black'
   },
   footerText: {

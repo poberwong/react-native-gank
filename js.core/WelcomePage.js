@@ -42,7 +42,7 @@ class WelcomePage extends Component {
           let contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
 
           setTimeout(() => {
-            this.props.navigator.replace({
+            this.props.navigator.push({
               component: HomePage,
               passProps: {contentDataGroup}
             })

@@ -5,7 +5,6 @@
 'use strict'
 
 var React = require('react-native')
-import WelcomePage from './js.core/WelcomePage'
 import HomePage from './js.core/HomePage'
 import DateUtils from './js.core/utils/DateUtils'
 
@@ -27,7 +26,7 @@ class ReactNativeGank extends Component {
     return (
       <Navigator style = {styles.container}
         initialRoute={{
-          component: WelcomePage
+          component: HomePage
         }}
         renderScene={(route, navigator) => { // 用来渲染navigator栈顶的route里的component页面
           // route={component: xxx, name: xxx, ...}， navigator.......route 用来在对应界面获取其他键值
