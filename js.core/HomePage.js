@@ -35,10 +35,7 @@ class HomePage extends Component {
     console.log('current :' + this.state.isLoading)
     let content = this.state.isLoading
     ? (<View style={styles.indicatorWrapper}>
-        <ActivityIndicatorIOS
-          hidden='true'
-          size='large'/>
-        <Text style={styles.loadingText}>待我菊花转好...</Text>
+          {this._welcome()}
         </View>)
     : (<View style={styles.container}>
         <View style={styles.headerWrapper}>
@@ -76,7 +73,11 @@ class HomePage extends Component {
       )
   }
 
-  _skipIntoHistory(contentDataGroup){
+  _welcome () {
+
+  }
+
+  _skipIntoHistory (contentDataGroup) {
     this.props.navigator.push({
       component: HistoryList,
       passProps: {contentDataGroup}

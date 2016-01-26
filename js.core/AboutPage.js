@@ -34,8 +34,8 @@ class AboutPage extends Component {
           onPress={() => {
             this.props.navigator.push({
               component: WebViewPage,
-              title: 'Gank.io',
-              url: 'http://gank.io'
+              title: 'PoberWong',
+              url: 'http://github.com/Bob1993'
             })
           }}
           > http://github.com/Bob1993 </Text>
