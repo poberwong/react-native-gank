@@ -33,14 +33,13 @@ const RequestUtils = {
           return fetch (url).then((response) => response.json())
         }
       )
-    var responseDatasCopy;
+    var responseDatasCopy
     await Promise.all(promises).then((responseDatas) => {
       responseDatas.forEach(function (element, index) {
         element.date = dateData.results[index]
       })
       responseDatasCopy = responseDatas
     })
-    console.log(responseDatasCopy)
     return responseDatasCopy
   }
 }
