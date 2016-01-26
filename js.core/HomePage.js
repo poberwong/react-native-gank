@@ -20,10 +20,11 @@ class HomePage extends Component {
     super(...args)
     this.state = ({
       isLoading: true,
+      isPlaying: true,
       fadeAnimLogo: new Animated.Value(0), // 设置动画初始值，生成Value对象
       fadeAnimText0: new Animated.Value(0),
       fadeAnimText1: new Animated.Value(0),
-      fadeAnimText2: new Animated.Value(1)
+      fadeAnimLayout: new Animated.Value(1)
     })
   }
 
@@ -41,22 +42,40 @@ class HomePage extends Component {
       timing(this.state.fadeAnimText1, {
         toValue: 1,
         duration: 800
-      }),
-      timing(this.state.fadeAnimText2, {
-        toValue: 0,
-        duration: 1200
       })
-    ]).start(() => {
-        this.setState({
-          welcomeEnd: true
-        })
+    ]).start(async() => {
+      this.setState({
+        isPlaying: false
+      })
+
+      setTimeout(() => this._hideWelcome(), 0)
     })
 
     this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
     this.homePageContent = this.contentDataGroup[0].results
+    console.log('homecontent:' + this.homePageContent)
     this.setState({
       isLoading: false
     })
+
+    setTimeout(() => this._hideWelcome(), 0)
+  }
+
+  _hideWelcome () {
+    if (this.state.isLoading || this.state.isPlaying) {
+      return
+    }
+
+    Animated.timing(
+      this.state.fadeAnimLayout,
+      {
+        toValue: 0,
+        duration: 1000
+      }).start(() => {
+        this.setState({
+          welcomeEnd: true
+        })
+      })
   }
 
   render () {
@@ -105,10 +124,10 @@ class HomePage extends Component {
   _welcome () {
     if (this.state.welcomeEnd) {
       return null
-    };
+    }
     return (
       <Animated.View style={[styles.indicatorWrapper, {
-        opacity: this.state.fadeAnimText2
+        opacity: this.state.fadeAnimLayout
       }]}>
         <Animated.View
           style={{
@@ -197,10 +216,11 @@ var styles = StyleSheet.create({
     flex: 1
   },
   videoTitle: {
-    fontSize: 20,
+    fontSize: 19,
     color: 'white',
-    marginTop: 25,
+    marginTop: 23,
     left: 15,
+    lineHeight: 21,
     marginRight: 25
   },
   dateAuthor: {
@@ -208,7 +228,7 @@ var styles = StyleSheet.create({
     color: 'white',
     position: 'absolute',
     left: 15,
-    bottom: 25
+    bottom: 23
   },
   toVideo: {
     fontSize: 15,
