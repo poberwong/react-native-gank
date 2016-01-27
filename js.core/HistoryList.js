@@ -3,7 +3,6 @@ import React from 'react-native'
 import DateUtils from './utils/DateUtils'
 import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
-import RefreshableListView from 'react-native-refreshable-listview'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
 import AboutPage from './AboutPage'
 
@@ -13,6 +12,7 @@ var {
   ListView,
   TouchableHighlight,
   ActivityIndicatorIOS,
+  RefreshControl,
   Image,
   Text,
   Component
@@ -52,11 +52,11 @@ class HistoryList extends Component {
 
   constructor (props) {
     super(props)
-    this.canloadMore = false
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       dataArray: this.props.contentDataGroup,
-      loadMore: false
+      loadMore: false,
+      isRefreshing: false
     }
   }
 
@@ -72,26 +72,33 @@ class HistoryList extends Component {
     return (
       <View style={styles.container}>
         <NavigationBar
-            backHidden={false}
-            barTintColor='white'
-            barStyle={styles.navbar}
-            title='History'
-            actionName='About'
-            backFunc={() => {
-              this.props.navigator.pop()
-            }}
-            actionFunc={() => {
-              this.props.navigator.push({
-                component: AboutPage
-              })
-            }}/>
-        <RefreshableListView
+          backHidden={false}
+          barTintColor='white'
+          barStyle={styles.navbar}
+          title='History'
+          actionName='About'
+          backFunc={() => {
+            this.props.navigator.pop()
+          }}
+          actionFunc={() => {
+            this.props.navigator.push({
+              component: AboutPage
+            })
+          }}/>
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
-          loadData={this._refresh.bind(this)}
           onEndReached={this._loadmore.bind(this)}
-          onEndReachedThreshold = {29}/>
-        {loadmoreAnimation}
+          onEndReachedThreshold = {29}
+          refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this._refresh.bind(this)}
+            tintColor='#aaaaaa'
+            title='Loading...'
+            progressBackgroundColor='#ffff00'/>
+          }/>
+          {loadmoreAnimation}
       </View>
     )
   }
@@ -101,13 +108,15 @@ class HistoryList extends Component {
   }
 
   async _refresh () {
+    this.setState({isRefreshing: true})
     this._updateDate()
     var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
     console.log(contentDataGroup)
     this.setState({
       dataArray: contentDataGroup,
       dataSource: this.state.dataSource.cloneWithRows(contentDataGroup),
-      isLoading: false
+      isLoading: false,
+      isRefreshing: false
     })
     // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
@@ -115,7 +124,7 @@ class HistoryList extends Component {
 
   async _loadmore () {
     console.log('loadmore is invoked')
-    if (this.canloadMore) {
+    // if (this.canloadMore) {
       this.setState({
         loadMore: true
       })
@@ -135,9 +144,9 @@ class HistoryList extends Component {
         dataSource: this.state.dataSource.cloneWithRows(newContent),
         loadMore: false
       })
-    } else {
-      this.canloadMore = true
-    }
+    // } else {
+    //   this.canloadMore = true
+    // }
   }
 
   _renderItem (contentData, sectionID, highlightRow) {
