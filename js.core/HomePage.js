@@ -53,7 +53,7 @@ class HomePage extends Component {
 
     this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
     this.homePageContent = this.contentDataGroup[0].results
-    console.log('homecontent:' + this.homePageContent)
+
     this.setState({
       isLoading: false
     })
@@ -79,7 +79,6 @@ class HomePage extends Component {
   }
 
   render () {
-    console.log('current :' + this.state.isLoading)
     let content = this.state.isLoading
     ? (<View style={{backgroundColor: 'black', flex: 1}}/>)
     : (<View style={styles.container}>
