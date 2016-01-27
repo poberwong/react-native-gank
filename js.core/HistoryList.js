@@ -108,6 +108,9 @@ class HistoryList extends Component {
   }
 
   async _refresh () {
+    if (this.state.isRefreshing) {
+      return
+    }
     this.setState({isRefreshing: true})
     this._updateDate()
     var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
@@ -123,30 +126,26 @@ class HistoryList extends Component {
   }
 
   async _loadmore () {
-    console.log('loadmore is invoked')
-    // if (this.canloadMore) {
-      this.setState({
-        loadMore: true
-      })
-      console.log('execute')
-      var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-      console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
-      var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
+    if (this.state.loadMore) {
+      return
+    }
+    this.setState({loadMore: true})
+    console.log('execute')
+    var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
+    console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
+    var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
 
-      var newContent = this.state.dataArray
-      // newContent.push(loadedContent)//???居然不能直接push一个数组
-      for (let element of loadedContentGroup) {
-        newContent.push(element)
-      }
+    var newContent = this.state.dataArray
+    // newContent.push(loadedContent)//???居然不能直接push一个数组
+    for (let element of loadedContentGroup) {
+      newContent.push(element)
+    }
 
-      this.setState({
-        dataArray: newContent,
-        dataSource: this.state.dataSource.cloneWithRows(newContent),
-        loadMore: false
-      })
-    // } else {
-    //   this.canloadMore = true
-    // }
+    this.setState({
+      dataArray: newContent,
+      dataSource: this.state.dataSource.cloneWithRows(newContent),
+      loadMore: false
+    })
   }
 
   _renderItem (contentData, sectionID, highlightRow) {
