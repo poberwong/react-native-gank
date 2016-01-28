@@ -5,13 +5,12 @@ import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
 import AboutPage from './AboutPage'
-
+import Animatable from 'react-native-animatable'
 var {
   StyleSheet,
   View,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS,
   RefreshControl,
   Image,
   Text,
@@ -56,19 +55,23 @@ class HistoryList extends Component {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       dataArray: this.props.contentDataGroup,
       loadMore: false,
-      isRefreshing: false
+      isRefreshing: false,
     }
+  }
+
+  componentDidMount() {
+
   }
 
   render () {
   // 在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
     let loadmoreAnimation = this.state.loadMore
-    ? (<ActivityIndicatorIOS
-              style={styles.indicator}
-              hidden='true'
-              size='small'/>)
+    ? (
+      <View style={styles.indicatorWrapper}>
+        <Animatable.View animation='shake' iterationCount='infinite' duration={1000} direction='normal' style={styles.indicator}/>
+      </View>)
     : (<View/>)
-    console.log('current loadMore: ' + this.state.loadMore)
+
     return (
       <View style={styles.container}>
         <NavigationBar
@@ -207,9 +210,17 @@ var styles = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 2
   },
+  indicatorWrapper: {
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#252528'
+  },
   indicator: {
-    height: 50
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    backgroundColor: '#aaaaaa'
   }
-
 })
 module.exports = HistoryList
