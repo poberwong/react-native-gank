@@ -132,10 +132,11 @@ class HomePage extends Component {
           style={{
             opacity: this.state.fadeAnimLogo, // Binds directly
             marginTop: 250,
+            alignItems: 'center',
             transform: [{
               translateX: this.state.fadeAnimLogo.interpolate({
                 inputRange: [0, 1],
-                outputRange: [120, 160]  // 0 : 150, 0.5 : 75, 1 : 0
+                outputRange: [-40, 0]  // 0 : 150, 0.5 : 75, 1 : 0
               })
             }]
           }}>
