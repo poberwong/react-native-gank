@@ -39,6 +39,8 @@ const RequestUtils = {
         element.date = dateData.results[index]
       })
       responseDatasCopy = responseDatas
+    }).catch((error) => {
+      console.log(error)
     })
     return responseDatasCopy
   }

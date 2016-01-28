@@ -136,7 +136,12 @@ class HistoryList extends Component {
     console.log('execute')
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
     console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
-    var loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
+    let loadedContentGroup
+    try {
+      loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
+    } catch (error) {
+      console.log(error)
+    }
 
     var newContent = this.state.dataArray
     // newContent.push(loadedContent)//???居然不能直接push一个数组
