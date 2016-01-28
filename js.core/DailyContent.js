@@ -18,7 +18,6 @@ const HEADER_HEIGHT = 400
 class DailyContent extends Component {
   constructor (props) {
     super(props)
-
     this.state = {
       opacity: 0
     }
@@ -52,10 +51,10 @@ class DailyContent extends Component {
           }}/>)
 
     return (
-        <View style= {styles.container}>
+        <View needsOffscreenAlphaCompositing renderToHardwareTextureAndroid style= {styles.container}>
           <ScrollView
             onScroll={this.onScroll.bind(this)}
-            scrollEventThrottle={10}
+            scrollEventThrottle={5}
             bounces={false}>
           <Image source= {{uri: thumbnail}} style={styles.headerImage}/>
           <View style={{flex:1}}>
@@ -136,8 +135,8 @@ var styles = StyleSheet.create({
     transform: [{rotate: '45deg'}],
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: 33.5,
-    left: 12
+    top: 34.5,
+    left: 14
   }
 })
 

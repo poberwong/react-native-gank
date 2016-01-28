@@ -20,6 +20,7 @@ module.exports = React.StyleSheet.create({
   icon: {
     width: 14,
     height: 14,
+    marginLeft: 2.5,
     borderLeftWidth: 2,
     borderBottomWidth: 2,
     transform: [{rotate: '45deg'}]

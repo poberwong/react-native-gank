@@ -113,7 +113,7 @@ class HomePage extends Component {
         </View>)
 
     return (
-      <View style={styles.content}>
+      <View style={styles.content}  needsOffscreenAlphaCompositing renderToHardwareTextureAndroid >
         {content}
         {this._welcome()}
       </View>
@@ -131,7 +131,7 @@ class HomePage extends Component {
         <Animated.View
           style={{
             opacity: this.state.fadeAnimLogo, // Binds directly
-            marginTop: 250,
+            marginTop: 230,
             alignItems: 'center',
             transform: [{
               translateX: this.state.fadeAnimLogo.interpolate({
