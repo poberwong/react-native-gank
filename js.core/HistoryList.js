@@ -5,7 +5,7 @@ import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import NavigationBar from './custom-views/react-native-navigationbar/index'
 import AboutPage from './AboutPage'
-import Animatable from 'react-native-animatable'
+import Animation from './custom-views/Animation'
 var {
   StyleSheet,
   View,
@@ -55,20 +55,21 @@ class HistoryList extends Component {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       dataArray: this.props.contentDataGroup,
       loadMore: false,
-      isRefreshing: false,
+      isRefreshing: false
     }
-  }
-
-  componentDidMount() {
-
   }
 
   render () {
   // 在此处，使用整个加载试图在根布局上进行替换时，会造成ListView无法重新对顶部和底部的控件进行偏移
+    // let loadmoreAnimation = false && this.state.loadMore
+    // ? (
+    //   <View style={styles.indicatorWrapper}>
+    //     <Animatable.Text animation='shake' iterationCount='infinite' duration={1000} direction='normal' style={styles.indicator}/>
+    //   </View>)
+    // : (<View/>)
     let loadmoreAnimation = this.state.loadMore
-    ? (
-      <View style={styles.indicatorWrapper}>
-        <Animatable.View animation='shake' iterationCount='infinite' duration={1000} direction='normal' style={styles.indicator}/>
+    ? (<View style={[styles.indicatorWrapper]}>
+        <Animation timingLength = {50} duration = {500} bodyColor={'#aaaaaa'}/>
       </View>)
     : (<View/>)
 
@@ -129,11 +130,11 @@ class HistoryList extends Component {
   }
 
   async _loadmore () {
+    console.log('== loadmore')
     if (this.state.loadMore) {
       return
     }
     this.setState({loadMore: true})
-    console.log('execute')
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
     console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
     let loadedContentGroup
@@ -141,9 +142,9 @@ class HistoryList extends Component {
       loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
     } catch (error) {
       console.log(error)
+      return
     }
-
-    var newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
+    let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
     // var newContent = this.state.dataArray
     // // newContent.push(loadedContent)//???居然不能直接push一个数组
     // for (let element of loadedContentGroup) {
