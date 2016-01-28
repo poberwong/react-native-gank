@@ -143,11 +143,12 @@ class HistoryList extends Component {
       console.log(error)
     }
 
-    var newContent = this.state.dataArray
-    // newContent.push(loadedContent)//???居然不能直接push一个数组
-    for (let element of loadedContentGroup) {
-      newContent.push(element)
-    }
+    var newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
+    // var newContent = this.state.dataArray
+    // // newContent.push(loadedContent)//???居然不能直接push一个数组
+    // for (let element of loadedContentGroup) {
+    //   newContent.push(element)
+    // }
 
     this.setState({
       dataArray: newContent,
