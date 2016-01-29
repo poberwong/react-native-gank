@@ -191,7 +191,7 @@ var styles = StyleSheet.create({
 		// height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 25
+    paddingTop: 20
   },
   thumbnail: {
     width: null, // 配合alignSelf实现宽度上 match_parent
@@ -199,7 +199,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch'
   },
   title: {// alignSelf 默认是center
-    fontSize: 16,
+    fontSize: 15,
     marginBottom: 10,
     marginRight: 35,
     marginLeft: 35,
@@ -209,7 +209,7 @@ var styles = StyleSheet.create({
     textAlign: 'center' // 字的对其方式：center每行都居中；left，right；auto ＝＝＝ justify ＝＝＝ left
   },
   date: {
-    fontSize: 20,
+    fontSize: 17,
     color: 'white',
     textAlign: 'center'
   },

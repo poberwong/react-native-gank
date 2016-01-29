@@ -89,7 +89,7 @@ class HomePage extends Component {
             </View>
         </View>
         <View style={styles.contentWrapper}>
-          <TouchableHighlight style={{flex: 2, marginTop: 18}}
+          <TouchableHighlight style={{flex: 2, marginTop: 17}}
             underlayColor={'#333333'}
             onPress={() => {
               this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
@@ -131,7 +131,7 @@ class HomePage extends Component {
         <Animated.View
           style={{
             opacity: this.state.fadeAnimLogo, // Binds directly
-            marginTop: 230,
+            marginTop: 220,
             alignItems: 'center',
             transform: [{
               translateX: this.state.fadeAnimLogo.interpolate({
@@ -151,7 +151,7 @@ class HomePage extends Component {
             transform: [{
               translateX: this.state.fadeAnimText0.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 35]
+                outputRange: [0, 25]
               })
             }]
           }}>
@@ -166,7 +166,7 @@ class HomePage extends Component {
             transform: [{
               translateX: this.state.fadeAnimText1.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 35]
+                outputRange: [0, 25]
               })
             }]
           }}>
@@ -189,19 +189,19 @@ var styles = StyleSheet.create({
     flex: 1
   },
   headerWrapper: {
-    height: 450
+    flex: 4
   },
   editorWrapper: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 20,
+    height: 17,
     backgroundColor: 'black',
     opacity: 0.5
   },
   imageEditors: {
-    fontSize: 15,
+    fontSize: 12,
     color: 'white',
     position: 'absolute',
     right: 15,
@@ -209,29 +209,29 @@ var styles = StyleSheet.create({
   },
   contentWrapper: {
     backgroundColor: '#252528',
-    flex: 1
+    flex: 3
   },
   content: {
     backgroundColor: '#434243',
     flex: 1
   },
   videoTitle: {
-    fontSize: 19,
+    fontSize: 18,
     color: 'white',
-    marginTop: 23,
+    marginTop: 17,
     left: 15,
     lineHeight: 21,
     marginRight: 25
   },
   dateAuthor: {
-    fontSize: 15,
+    fontSize: 14,
     color: 'white',
     position: 'absolute',
     left: 15,
-    bottom: 23
+    bottom: 17
   },
   toVideo: {
-    fontSize: 15,
+    fontSize: 14,
     color: 'white',
     position: 'absolute',
     bottom: 8,
@@ -242,8 +242,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    marginTop: 18,
-    marginBottom: 18
+    marginTop: 17,
+    marginBottom: 17
   },
   toHistory: {
     fontSize: 18,

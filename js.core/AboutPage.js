@@ -7,6 +7,7 @@ var {
   Component,
   StyleSheet,
   View,
+  ScrollView,
   Image,
   Text
 } = React
@@ -47,19 +48,21 @@ class AboutPage extends Component {
       )
     return (
       <View style={styles.container}>
+        <ScrollView>
           <Image source={require('./images/gank_launcher.png')} style={styles.imgLauncher}/>
           <Text style={styles.versionText}>干 客</Text>
           <Text style={styles.versionText}>v1.0.0</Text>
           <Text style={styles.aboutText}>关于开发者</Text>
           {content}
-          <NavigationBar
-            backTintColor='white'
-            title='关于开发者'
-            barOpacity={0.8}
-            barStyle={styles.navbar}
-            backFunc={() => {
-              this.props.navigator.pop()
-            }}/>
+        </ScrollView>
+        <NavigationBar
+          backTintColor='white'
+          title='关于开发者'
+          barOpacity={0.8}
+          barStyle={styles.navbar}
+          backFunc={() => {
+            this.props.navigator.pop()
+          }}/>
       </View>
       )
   }
@@ -70,7 +73,6 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#252528'
   },
-
   navbar: {
     top: 0,
     left: 0,
@@ -86,7 +88,7 @@ var styles = StyleSheet.create({
   },
 
   contentContainer: {
-    height: 295,
+    // height: 300,
     backgroundColor: 'white',
     margin: 8,
     padding: 15,
@@ -111,7 +113,7 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 8,
     color: '#434243'
-  },
+  }
 
 })
 
