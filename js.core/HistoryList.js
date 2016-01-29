@@ -100,7 +100,7 @@ class HistoryList extends Component {
             onRefresh={this._refresh.bind(this)}
             tintColor='#aaaaaa'
             title='Loading...'
-            progressBackgroundColor='#ffff00'/>
+            progressBackgroundColor='#aaaaaa'/>
           }/>
           {loadmoreAnimation}
       </View>
