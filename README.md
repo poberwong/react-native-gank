@@ -68,11 +68,16 @@
 
 
 
-## Usage (iOS 版本可以跑通，Android 正在努力适配中)
+## Usage  
+*(Android,iOS可完美跨平台，具体操作: )*
 
 1. 安装以及正确调试 React-Native 开发环境（支持 Windows／OSX）
 2. clone 本项目之后，在根目录下使用 `npm install`  命令来安装项目中依赖的所有依赖库
-3. 点开 iOS 文件夹下的 `ReactNativeGank.xcodeproj` 运行程序
+3. 运行: 
+	* iOS版本: 点开 ios 文件夹下的`ReactNativeGank.xcodeproj` 运行程序
+	* Android: 在项目根目录下，使用terminal or iterm等其他工具运行 `react-native run-android` 来运行  
+
+*如果出现了其他的一些问题，欢迎提交issues，也欢迎提交PR，本人会认真核对每一条issues和PR的～* 
 
 ***感谢 [代码家](http://daimajia.com) 的 [Gank.io](http://gank.io) 的数据支持，感谢 [Veaer](https://github.com/Veaer) 同学的 [Gank-Vear](https://github.com/Veaer/Gank-Veaer) 项目设计和指点，非常感谢自始至终老板对我整个学习路程的指导......***  
 

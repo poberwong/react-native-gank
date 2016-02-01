@@ -5,8 +5,8 @@
 'use strict'
 
 var React = require('react-native')
-import HomePage from './js.core/HomePage'
-import DateUtils from './js.core/utils/DateUtils'
+import HomePage from './jscore/HomePage'
+import DateUtils from './jscore/utils/DateUtils'
 
 var {
   AppRegistry,
