@@ -99,7 +99,7 @@ class HomePage extends Component {
               })
             }}>
             <View style={styles.content}>
-              <Text style={styles.videoTitle}>{this.homePageContent.休息视频[0].desc}</Text>
+              <Text style={styles.videoTitle} numberOfLines={4}>{this.homePageContent.休息视频[0].desc}</Text>
               <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date + ' via.' + this.homePageContent.休息视频[0].who}</Text>
               <Text style={styles.toVideo}>--> 去看视频～</Text>
             </View>
