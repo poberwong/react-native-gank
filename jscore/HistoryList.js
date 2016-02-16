@@ -3,7 +3,7 @@ import React from 'react-native'
 import DateUtils from './utils/DateUtils'
 import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
-import NavigationBar from './custom-views/react-native-navigationbar/index'
+import NavigationBar from 'react-native-navigationbar'
 import AboutPage from './AboutPage'
 import Animation from './custom-views/Animation'
 var {
