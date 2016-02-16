@@ -2,30 +2,9 @@
 
 为 Gank.io 做的一个 React-Native 移动客户端  
 
-***感谢文哥的 [Gank.io](http://.gank.io) 提供数据***
+***感谢文哥的 [Gank.io](http://gank.io) 提供数据***
 
-## Update 1st
-
-### 添加主要逻辑
-
-* 页面数据 API 拼接 (拼接到 1/15 号，具体逻辑还没写)
-* 单页面数据的获取
-* 图形加载
-
-
-
-## Update 2nd
-
-### 添加主要逻辑
-
-* 面向对象编程的代码重构
-* 完成首页、历史页
-* 完成内容详情页 Header 的半透明控制
-* 添加了 Navigationbar 的自定义组件
-
-## Update 3rd
-
-### 最终效果：
+**Download (Android) : [Gank](http://fir.im/reactnativegank)**
 
 * *欢迎页面*
 
