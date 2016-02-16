@@ -9,6 +9,7 @@ var {
     ScrollView,
     View,
     Component,
+    TouchableHighlight,
     Image,
     Text
    } = React
@@ -78,9 +79,9 @@ class DailyContent extends Component {
 
   getItems (contentData, category) {
     return contentData.results[category].map((item, index) => (
-      <Text
+      <TouchableHighlight style={styles.titleWrapper}
+        underlayColor='#aaaaaa'
         key={index}
-        style={styles.title}
         onPress={ () => {
           this.props.navigator.push({
             component: WebViewPage,
@@ -88,8 +89,10 @@ class DailyContent extends Component {
             url: item.url
           })
         }}>
-        *  {item.desc} ( {item.who} )
-      </Text>
+        <Text style={styles.title}>
+          *  {item.desc} ( {item.who} )
+        </Text>
+      </TouchableHighlight>
     ))
   }
 }
@@ -122,9 +125,11 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    marginTop: 10,
-    lineHeight: 23,
     marginLeft: 15
+  },
+  titleWrapper: {
+    flex: 1,
+    marginTop: 10
   },
   backIcon: {
     width: 14,
