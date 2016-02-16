@@ -67,7 +67,7 @@ class DailyContent extends Component {
     )
   }
 
-  _getViews(contentData){
+  _getViews (contentData) {
     return contentData.category.map((category, index) => (
       <View key={index} style={styles.itemContainer}>
         <Text style={styles.category}>{category}</Text>
@@ -135,8 +135,8 @@ var styles = StyleSheet.create({
     transform: [{rotate: '45deg'}],
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: 34.5,
-    left: 14
+    top: 33.9,
+    left: 14.5
   }
 })
 

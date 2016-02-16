@@ -2,7 +2,6 @@
 import React from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
 var {
-  StyleSheet,
   Component,
   WebView,
   View
