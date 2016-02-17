@@ -52,17 +52,20 @@ class HomePage extends Component {
       setTimeout(() => this._hideWelcome(), 0)
     })
 
-    setTimeout(() => this.setState({
-      isError: true
-    }), 7000)
-
-    this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
-    if (typeof this.contentDataGroup === 'undefined') { return }
-    this.homePageContent = this.contentDataGroup[0].results
-
-    this.setState({
-      isLoading: false
-    })
+    try {
+      this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
+      if (typeof this.contentDataGroup === 'undefined') { return }
+      this.homePageContent = this.contentDataGroup[0].results
+      this.setState({
+        isLoading: false
+      })
+      
+    } catch (error) {
+      console.log('request content from HomePage faile: ', error)
+      this.setState({
+        isError: true
+      })
+    }
 
     setTimeout(() => this._hideWelcome(), 0)
   }

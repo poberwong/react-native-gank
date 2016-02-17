@@ -31,7 +31,7 @@ export default class SnackBar extends Component {
   static defaultProps = {
     stayTime: 1500,
     bodyColor: 'red',
-    height: 45,
+    height: 40,
     message: 'Something Error'
   };
 

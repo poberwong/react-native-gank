@@ -1,3 +1,4 @@
+/*global fetch*/
 'use strict'
 import React from 'react-native'
 import DateUtils from './utils/DateUtils'
@@ -79,7 +80,7 @@ class HistoryList extends Component {
     ? (<SnackBar/>)
     : null
 
-    this.state.isError = false 
+    this.state.isError = false
 
     return (
       <View style={styles.container}>
@@ -127,20 +128,24 @@ class HistoryList extends Component {
     this.setState({isRefreshing: true})
     this._updateDate()
 
-    setTimeout(() => this.setState({
-      isError: true,
-      isRefreshing: false
-    }), 6000)
+    try {
+      var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
+      if (typeof contentDataGroup === 'undefined') { return }
+      console.log(contentDataGroup)
+      this.setState({
+        dataArray: contentDataGroup,
+        dataSource: this.state.dataSource.cloneWithRows(contentDataGroup),
+        isLoading: false,
+        isRefreshing: false
+      })
+    } catch (error) {
+      console.log(error)
+      this.setState({
+        isError: true,
+        isRefreshing: false
+      })
+    }
 
-    var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
-    if (typeof contentDataGroup === 'undefined') { return }
-    console.log(contentDataGroup)
-    this.setState({
-      dataArray: contentDataGroup,
-      dataSource: this.state.dataSource.cloneWithRows(contentDataGroup),
-      isLoading: false,
-      isRefreshing: false
-    })
     // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
   }
@@ -152,17 +157,16 @@ class HistoryList extends Component {
     }
     this.setState({loadMore: true})
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-    setTimeout(() => this.setState({
-      isError: true,
-      loadMore: false
-    }), 6000)
 
     let loadedContentGroup
     try {
       loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
     } catch (error) {
       console.log(error)
-      return
+      this.setState({
+        loadMore: false,
+        isError: true
+      })
     }
     if (typeof loadedContentGroup === 'undefined') { return }
     let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
