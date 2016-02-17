@@ -26,6 +26,7 @@ const RequestUtils = {
     /* for(var date of responseData.results){
       console.log('converted data is '+ this._convertDate(date));
     } */
+    if (typeof dateData === 'undefined') { return }
     var contentUrl = dateData.results.map(DateUtils.convertDate).map(this._genDailyAPI)// 使用到了数组的map特性
 
     var promises = contentUrl.map(

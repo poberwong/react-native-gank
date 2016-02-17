@@ -6,6 +6,7 @@ import DailyContent from './DailyContent'
 import NavigationBar from 'react-native-navigationbar'
 import AboutPage from './AboutPage'
 import Animation from './custom-views/Animation'
+import SnackBar from './custom-views/SnackBar.js'
 var {
   StyleSheet,
   View,
@@ -55,7 +56,8 @@ class HistoryList extends Component {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       dataArray: this.props.contentDataGroup,
       loadMore: false,
-      isRefreshing: false
+      isRefreshing: false,
+      isError: false
     }
   }
 
@@ -72,6 +74,12 @@ class HistoryList extends Component {
         <Animation timingLength = {50} duration = {500} bodyColor={'#aaaaaa'}/>
       </View>)
     : (<View/>)
+
+    let snackBar = this.state.isError
+    ? (<SnackBar/>)
+    : null
+
+    this.state.isError = false 
 
     return (
       <View style={styles.container}>
@@ -103,6 +111,7 @@ class HistoryList extends Component {
             progressBackgroundColor='#aaaaaa'/>
           }/>
           {loadmoreAnimation}
+          {snackBar}
       </View>
     )
   }
@@ -117,7 +126,14 @@ class HistoryList extends Component {
     }
     this.setState({isRefreshing: true})
     this._updateDate()
+
+    setTimeout(() => this.setState({
+      isError: true,
+      isRefreshing: false
+    }), 6000)
+
     var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
+    if (typeof contentDataGroup === 'undefined') { return }
     console.log(contentDataGroup)
     this.setState({
       dataArray: contentDataGroup,
@@ -136,7 +152,11 @@ class HistoryList extends Component {
     }
     this.setState({loadMore: true})
     var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
-    console.log('lastDate: ' + this.state.dataArray[this.state.dataArray.length - 1].date)
+    setTimeout(() => this.setState({
+      isError: true,
+      loadMore: false
+    }), 6000)
+
     let loadedContentGroup
     try {
       loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
@@ -144,6 +164,7 @@ class HistoryList extends Component {
       console.log(error)
       return
     }
+    if (typeof loadedContentGroup === 'undefined') { return }
     let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
     // var newContent = this.state.dataArray
     // // newContent.push(loadedContent)//???居然不能直接push一个数组
