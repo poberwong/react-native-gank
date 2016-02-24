@@ -40,7 +40,6 @@ const RequestUtils = {
 
     var responseDatasCopy
     await Promise.all(promises).then(responseDatas => {
-
       responseDatas.forEach(function (element, index) {
         element.date = dateData.results[index]
       })

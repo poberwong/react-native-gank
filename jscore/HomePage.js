@@ -59,7 +59,6 @@ class HomePage extends Component {
       this.setState({
         isLoading: false
       })
-      
     } catch (error) {
       console.log('request content from HomePage faile: ', error)
       this.setState({

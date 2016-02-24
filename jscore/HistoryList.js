@@ -1,4 +1,3 @@
-/*global fetch*/
 'use strict'
 import React from 'react-native'
 import DateUtils from './utils/DateUtils'
@@ -70,11 +69,6 @@ class HistoryList extends Component {
     //     <Animatable.Text animation='shake' iterationCount='infinite' duration={1000} direction='normal' style={styles.indicator}/>
     //   </View>)
     // : (<View/>)
-    let loadmoreAnimation = this.state.loadMore
-    ? (<View style={[styles.indicatorWrapper]}>
-        <Animation timingLength = {50} duration = {500} bodyColor={'#aaaaaa'}/>
-      </View>)
-    : (<View/>)
 
     let snackBar = this.state.isError
     ? (<SnackBar/>)
@@ -102,6 +96,7 @@ class HistoryList extends Component {
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           onEndReached={this._loadmore.bind(this)}
+          renderFooter={this._renderFooter.bind(this)}
           onEndReachedThreshold = {29}
           refreshControl={
           <RefreshControl
@@ -110,9 +105,8 @@ class HistoryList extends Component {
             tintColor='#aaaaaa'
             title='Loading...'
             progressBackgroundColor='#aaaaaa'/>
-          }/>
-          {loadmoreAnimation}
-          {snackBar}
+        }/>
+        {snackBar}
       </View>
     )
   }
@@ -183,6 +177,16 @@ class HistoryList extends Component {
     })
   }
 
+  _renderFooter () {
+    return (
+      this.state.loadMore
+    ? (<View style={[styles.indicatorWrapper]}>
+        <Animation timingLength = {50} duration = {500} bodyColor={'#aaaaaa'}/>
+      </View>)
+    : (<View/>)
+      )
+  }
+
   _renderItem (contentData, sectionID, highlightRow) {
     return (
       <TouchableHighlight onPress= {() => this._skipIntoContent(contentData)
@@ -191,7 +195,7 @@ class HistoryList extends Component {
           <Text style={styles.date}>{contentData.date}</Text>
           <Text style={[styles.title]}>{contentData.results.休息视频[0].desc}</Text>
           <Image source={{uri: contentData.results.福利[0].url}}
-               style={styles.thumbnail}/>
+            style={styles.thumbnail}/>
         </View>
       </TouchableHighlight>
     )
