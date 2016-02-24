@@ -22,7 +22,7 @@ class WebViewPage extends Component {
             this.props.navigator.pop()
           }}/>
         <WebView
-          url={this.props.url}/>
+          source={{uri: this.props.url}}/>
       </View>
       )
   }
