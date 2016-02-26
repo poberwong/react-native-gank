@@ -60,4 +60,8 @@
 
 ***感谢 [代码家](http://daimajia.com) 的 [Gank.io](http://gank.io) 的数据支持，感谢 [Veaer](https://github.com/Veaer) 同学的 [Gank-Vear](https://github.com/Veaer/Gank-Veaer) 项目设计和指点，非常感谢自始至终老板对我整个学习路程的指导......***  
 
-*本人在是公司的 React-Native 实习工程师，Gank.io 是我的一个练手项目，项目的更新会在之后的学习中不断更新，欢迎大家监督...么么哒^_^*
+## Wanted
+**[Product Manager](http://m.bosszhipin.com/share/job/aa520c051c5e34fd1HVz2dy7?ka=jobList_1)**  
+More position please click [here](http://m.bosszhipin.com/boss/h5/skin1/?bossId=bb01984c939696fd0nN43g~~)  
+
+***成功入职有奖喔~  简历快砸过来！！！***

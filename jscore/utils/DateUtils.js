@@ -1,5 +1,5 @@
 const DateUtils = {
-  
+
   convertDate (date: string) { // change the date like '2015-11-05' into '2015/11/05'
     return date.replace(new RegExp('-', 'g'), '/') // 居然是一个一个替换,使用正则表达式解决方案
   },
