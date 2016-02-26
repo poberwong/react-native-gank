@@ -62,6 +62,6 @@
 
 ## Wanted
 **[Product Manager](http://m.bosszhipin.com/share/job/aa520c051c5e34fd1HVz2dy7?ka=jobList_1)**  
-More position please click [here](http://m.bosszhipin.com/boss/h5/skin1/?bossId=bb01984c939696fd0nN43g~~)  
+More positions please click [here](http://m.bosszhipin.com/boss/h5/skin1/?bossId=bb01984c939696fd0nN43g~~)  
 
 ***成功入职有奖喔~  简历快砸过来！！！***
