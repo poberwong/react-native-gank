@@ -1,7 +1,5 @@
 /*global fetch*/
-
 import DateUtils from './DateUtils'
-
 const delay = (ms) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -15,37 +13,28 @@ const fetchWithTimeout = (timeout, ...args) => {
 }
 
 const RequestUtils = {
-  API_DATE_BEFORE: 'http://gank.avosapps.com/api/get/',
-  API_DAILY: 'http://gank.avosapps.com/api/day/',
-  PAGE_SIZE: 10,
+  API_DATE: 'http://gank.io/api/day/history',
+  API_DAILY: 'http://gank.io/api/day/',
 
-  fetchData (url: string) {
-    return fetchWithTimeout(5000, url).then(response => response.json())
-      // 就是把一个javascript对象转换为JSON字符串
+  async getDateArray (before, pageSize) { // 'before means index in the full-date-array'
+    let dateArray = await fetchWithTimeout(5000, this.API_DATE).then(response => response.json())// 返回json对象
+    console.log('pober' + dateArray)
+    return dateArray.results.slice(before, pageSize)
   },
 
-  _genDailyAPI (date: string) {
-    return RequestUtils.API_DAILY + date
-  },
-
-  async getContents (lastDate) { // 按页获取lastDate之前所有的DailyContent
-    var dateData = await RequestUtils.fetchData(this.API_DATE_BEFORE + this.PAGE_SIZE + '/before/' + lastDate)// 返回json对象
-
-    if (typeof dateData === 'undefined') { return }
-    var contentUrl = dateData.results.map(DateUtils.convertDate).map(this._genDailyAPI)// 使用到了数组的map特性
-
-    var promises = contentUrl.map(
+  async getContents (dateArray) { // default value is 0
+    let contentUrlArray = dateArray.map(DateUtils.convertDate).map((date) => this.API_DAILY + date)
+    let promises = contentUrlArray.map(
       (url) => fetchWithTimeout(5000, url).then(response => response.json())
     )
 
-    var responseDatasCopy
+    let responseDatasCopy
     await Promise.all(promises).then(responseDatas => {
       responseDatas.forEach(function (element, index) {
-        element.date = dateData.results[index]
+        element.date = dateArray[index]
       })
       responseDatasCopy = responseDatas
     })
-
     return responseDatasCopy
   }
 }

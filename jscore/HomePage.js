@@ -53,9 +53,11 @@ class HomePage extends Component {
     })
 
     try {
-      this.contentDataGroup = await RequestUtils.getContents(DateUtils.getCurrentDate())
+      let dateArray = await RequestUtils.getDateArray(0, 10)
+      //
+      this.contentDataGroup = await RequestUtils.getContents(dateArray)
       if (typeof this.contentDataGroup === 'undefined') { return }
-      this.homePageContent = this.contentDataGroup[0].results
+
       this.setState({
         isLoading: false
       })
@@ -87,13 +89,16 @@ class HomePage extends Component {
   }
 
   render () {
-    let content = this.state.isLoading
-    ? (<View style={{backgroundColor: 'black', flex: 1}}/>)
-    : (<View style={styles.container}>
+    let content
+    if (this.state.isLoading) {
+      content = (<View style={{backgroundColor: 'black', flex: 1}}/>)
+    } else {
+      let homePageContent = this.contentDataGroup[0].results
+      content = (<View style={styles.container}>
         <View style={styles.headerWrapper}>
-            <Image source={{uri: this.homePageContent.福利[0].url}} style={{flex: 1}}/>
+            <Image source={{uri: homePageContent.福利[0].url}} style={{flex: 1}}/>
             <View style={styles.editorWrapper}>
-              <Text style={styles.imageEditors}>{'via.' + this.homePageContent.福利[0].who}</Text>
+              <Text style={styles.imageEditors}>{'via.' + homePageContent.福利[0].who}</Text>
             </View>
         </View>
         <View style={styles.contentWrapper}>
@@ -102,13 +107,13 @@ class HomePage extends Component {
             onPress={() => {
               this.props.navigator.push({// 活动跳转，以Navigator为容器管理活动页面
                 component: WebViewPage,
-                title: this.homePageContent.休息视频[0].desc,
-                url: this.homePageContent.休息视频[0].url
+                title: homePageContent.休息视频[0].desc,
+                url: homePageContent.休息视频[0].url
               })
             }}>
             <View style={styles.content}>
-              <Text style={styles.videoTitle} numberOfLines={4}>{this.homePageContent.休息视频[0].desc}</Text>
-              <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date + ' via.' + this.homePageContent.休息视频[0].who}</Text>
+              <Text style={styles.videoTitle} numberOfLines={4}>{homePageContent.休息视频[0].desc}</Text>
+              <Text style={styles.dateAuthor}>{this.contentDataGroup[0].date + ' via.' + homePageContent.休息视频[0].who}</Text>
               <Text style={styles.toVideo}>--> 去看视频～</Text>
             </View>
           </TouchableHighlight>
@@ -119,6 +124,7 @@ class HomePage extends Component {
           </TouchableHighlight>
         </View>
         </View>)
+    }
 
     return (
       <View style={styles.content}  needsOffscreenAlphaCompositing renderToHardwareTextureAndroid >

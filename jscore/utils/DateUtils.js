@@ -19,7 +19,7 @@ const DateUtils = {
     Date.prototype.Format = function (fmt) {
       var o = {
         'M+': this.getMonth() + 1, // 月份
-        'd+': this.getDate() + 1, // 这里主要是为了适配before API
+        'd+': this.getDate(), // 这里主要是为了适配before API
         'h+': this.getHours(), // 小时
         'm+': this.getMinutes(), // 分
         's+': this.getSeconds(), // 秒
