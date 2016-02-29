@@ -53,9 +53,9 @@ class HomePage extends Component {
     })
 
     try {
-      let dateArray = await RequestUtils.getDateArray(0, 10)
-      //
-      this.contentDataGroup = await RequestUtils.getContents(dateArray)
+      this.dateArray = (await RequestUtils.getDateArray()).results
+
+      this.contentDataGroup = await RequestUtils.getContents(this.dateArray.slice(0, 10)) // 内容只加载一页（10条）
       if (typeof this.contentDataGroup === 'undefined') { return }
 
       this.setState({
@@ -119,7 +119,7 @@ class HomePage extends Component {
           </TouchableHighlight>
           <TouchableHighlight style={styles.buttonStyle}
             underlayColor={'#333333'}
-            onPress={() => this._skipIntoHistory(this.contentDataGroup)}>
+            onPress={() => this._skipIntoHistory(this.contentDataGroup, this.dateArray)}>
             <Text style={styles.toHistory}>查看往期</Text>
           </TouchableHighlight>
         </View>
@@ -195,10 +195,10 @@ class HomePage extends Component {
       )
   }
 
-  _skipIntoHistory (contentDataGroup) {
+  _skipIntoHistory (contentDataGroup, dateArray) {
     this.props.navigator.push({
       component: HistoryList,
-      passProps: {contentDataGroup}
+      passProps: {contentDataGroup, dateArray}
     })
   }
 }

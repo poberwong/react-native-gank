@@ -52,6 +52,8 @@ class HistoryList extends Component {
 
   constructor (props) {
     super(props)
+    this.pageIndex = 0
+    this.dateArray = this.props.dateArray
     this.state = {
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(this.props.contentDataGroup), // 先初始化一个空的数据集合
       dataArray: this.props.contentDataGroup,
@@ -111,20 +113,19 @@ class HistoryList extends Component {
     )
   }
 
-  _updateDate () {
-    this.LAST_DATE = DateUtils.getCurrentDate()
-  }
-
   async _refresh () {
     if (this.state.isRefreshing) {
       return
     }
     this.setState({isRefreshing: true})
-    this._updateDate()
 
     try {
-      var contentDataGroup = await RequestUtils.getContents(this.LAST_DATE)
-      if (typeof contentDataGroup === 'undefined') { return }
+      this.dateArray = (await RequestUtils.getDateArray()).results
+      this.pageIndex = 0
+      let contentDataGroup = await RequestUtils.getContents(this.dateArray.slice(0, 10))
+      if (typeof contentDataGroup === 'undefined') {
+       return
+      }
       console.log(contentDataGroup)
       this.setState({
         dataArray: contentDataGroup,
@@ -140,21 +141,29 @@ class HistoryList extends Component {
       })
     }
 
-    // ??? setState 放到外边 ，contentData会清零？重置？
     // 异步方法的数据只能在回调方法里获取。await可以让它顺序执行
   }
 
   async _loadmore () {
-    console.log('== loadmore')
     if (this.state.loadMore) {
       return
     }
-    this.setState({loadMore: true})
-    var lastDate = this.state.dataArray[this.state.dataArray.length - 1].date
 
-    let loadedContentGroup
+    this.setState({loadMore: true})
+
     try {
-      loadedContentGroup = await RequestUtils.getContents(DateUtils.convertDate(lastDate))
+      this.pageIndex += 10
+      let pageDate = this.dateArray.slice(this.pageIndex, this.pageIndex + 10)
+
+      let loadedContentGroup
+      loadedContentGroup = await RequestUtils.getContents(pageDate)
+      let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
+
+      this.setState({
+        dataArray: newContent,
+        dataSource: this.state.dataSource.cloneWithRows(newContent),
+        loadMore: false
+      })
     } catch (error) {
       console.log(error)
       this.setState({
@@ -162,19 +171,6 @@ class HistoryList extends Component {
         isError: true
       })
     }
-    if (typeof loadedContentGroup === 'undefined') { return }
-    let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
-    // var newContent = this.state.dataArray
-    // // newContent.push(loadedContent)//???居然不能直接push一个数组
-    // for (let element of loadedContentGroup) {
-    //   newContent.push(element)
-    // }
-
-    this.setState({
-      dataArray: newContent,
-      dataSource: this.state.dataSource.cloneWithRows(newContent),
-      loadMore: false
-    })
   }
 
   _renderFooter () {

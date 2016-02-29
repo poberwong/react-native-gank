@@ -16,10 +16,8 @@ const RequestUtils = {
   API_DATE: 'http://gank.io/api/day/history',
   API_DAILY: 'http://gank.io/api/day/',
 
-  async getDateArray (before, pageSize) { // 'before means index in the full-date-array'
-    let dateArray = await fetchWithTimeout(5000, this.API_DATE).then(response => response.json())// 返回json对象
-    console.log('pober' + dateArray)
-    return dateArray.results.slice(before, pageSize)
+  getDateArray () { // 'before means index in the full-date-array'
+    return fetchWithTimeout(5000, this.API_DATE).then(response => response.json())// 返回json对象
   },
 
   async getContents (dateArray) { // default value is 0
