@@ -16,8 +16,7 @@ export default class SnackBar extends Component {
   constructor (props) {
     super(props)
     this.state = ({
-      showValue: new Animated.Value(0),
-      isHided: false
+      showValue: new Animated.Value(0)
     })
   }
 
@@ -52,18 +51,14 @@ export default class SnackBar extends Component {
     Animated.timing(this.state.showValue, {
       toValue: 0,
       duration: 550
-    }).start(() => this.setState({
-      isHided: true
-    }))
+    }).start()
   }
 
   render () {
     return (
-      this.state.isHided
-      ? null
-      : (<Animated.View style={[styles.containers, {opacity: this.state.showValue, height: this.props.height, backgroundColor: this.props.bodyColor}]}>
-          <Text>{this.props.message}</Text>
-        </Animated.View>)
+      (<Animated.View style={[styles.containers, {opacity: this.state.showValue, height: this.props.height, backgroundColor: this.props.bodyColor}]}>
+        <Text>{this.props.message}</Text>
+      </Animated.View>)
     )
   }
 }

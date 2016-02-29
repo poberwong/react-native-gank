@@ -130,7 +130,6 @@ class HistoryList extends Component {
       this.setState({
         dataArray: contentDataGroup,
         dataSource: this.state.dataSource.cloneWithRows(contentDataGroup),
-        isLoading: false,
         isRefreshing: false
       })
     } catch (error) {
@@ -150,13 +149,13 @@ class HistoryList extends Component {
     }
 
     this.setState({loadMore: true})
+    console.log('===haha', this.state.loadMore)
 
     try {
       this.pageIndex += 10
       let pageDate = this.dateArray.slice(this.pageIndex, this.pageIndex + 10)
 
-      let loadedContentGroup
-      loadedContentGroup = await RequestUtils.getContents(pageDate)
+      let loadedContentGroup = await RequestUtils.getContents(pageDate)
       let newContent = [...this.state.dataArray, ...loadedContentGroup] // put elements in loadedContentGroup into dataArray
 
       this.setState({
