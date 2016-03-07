@@ -6,7 +6,6 @@
 
 var React = require('react-native')
 import HomePage from './jscore/HomePage'
-import DateUtils from './jscore/utils/DateUtils'
 
 var {
   AppRegistry,
@@ -18,7 +17,6 @@ var {
 class ReactNativeGank extends Component {
   constructor (props) {
     super(props)
-    DateUtils.extendDate() // 拓展Date类
   }
 
   render () {

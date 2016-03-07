@@ -35,4 +35,6 @@ const DateUtils = {
   }
 }
 
+DateUtils.extendDate()
+
 module.exports = DateUtils
