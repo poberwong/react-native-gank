@@ -1,6 +1,5 @@
 'use strict'
 import React from 'react-native'
-import DateUtils from './utils/DateUtils'
 import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import NavigationBar from 'react-native-navigationbar'
@@ -17,36 +16,6 @@ var {
   Text,
   Component
 } = React
-
-// var {
-//   RequestUtils,
-//   DateUtils
-// } = Utils
-
-/*
-date format: 2015/07/22
-date json array:
-	{
-"error": false,
-"results": [
-"2015-07-21",
-"2015-07-20",
-"2015-07-19",
-"2015-07-18",
-"2015-07-17",
-"2015-07-16",
-"2015-07-15",
-"2015-07-14",
-"2015-07-13",
-"2015-07-12"
-]
-}
-*/
-
-/*
-目标数据源： [{title: xxxx, thumbnail: xxx, date: xxx}...]
-date可以使用第一次请求的得来的数据
-*/
 
 class HistoryList extends Component {
 
@@ -178,17 +147,18 @@ class HistoryList extends Component {
     ? (<View style={[styles.indicatorWrapper]}>
         <Animation timingLength = {50} duration = {500} bodyColor={'#aaaaaa'}/>
       </View>)
-    : (<View/>)
+    : null
       )
   }
 
   _renderItem (contentData, sectionID, highlightRow) {
+    const title = contentData.results.休息视频 ? contentData.results.休息视频[0].desc : 'Gank.io'
     return (
       <TouchableHighlight onPress= {() => this._skipIntoContent(contentData)
       }>
         <View style={styles.itemContainer}>
           <Text style={styles.date}>{contentData.date}</Text>
-          <Text style={[styles.title]}>{contentData.results.休息视频[0].desc}</Text>
+          <Text style={[styles.title]}>{title}</Text>
           <Image source={{uri: contentData.results.福利[0].url}}
             style={styles.thumbnail}/>
         </View>
