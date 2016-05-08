@@ -1,16 +1,8 @@
 'use strict'
-import React from 'react-native'
+import React, { Component } from 'react'
+import { View, ScrollView, Image, Text, StyleSheet } from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
 import WebViewPage from './WebViewPage'
-
-var {
-  Component,
-  StyleSheet,
-  View,
-  ScrollView,
-  Image,
-  Text
-} = React
 
 class AboutPage extends Component {
   render () {

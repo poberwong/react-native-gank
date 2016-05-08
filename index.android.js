@@ -3,18 +3,9 @@
  * https://github.com/facebook/react-native
  */
 'use strict'
-var React = require('react-native')
+import React, { Component } from 'react'
+import { AppRegistry, StyleSheet, BackAndroid, Navigator, StatusBar, View } from 'react-native'
 import HomePage from './jscore/HomePage'
-
-var {
-  AppRegistry,
-  StyleSheet,
-  BackAndroid,
-  Navigator,
-  View,
-  StatusBar,
-  Component
-} = React
 
 class ReactNativeGank extends Component {
   constructor (props) {
@@ -46,7 +37,7 @@ class ReactNativeGank extends Component {
       <View style = {styles.container}>
         <StatusBar
           backgroundColor='transparent'
-          translucent={true}/>
+          translucent/>
         <Navigator
           ref={component => this.navigator = component}
           initialRoute={{

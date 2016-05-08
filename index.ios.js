@@ -4,15 +4,9 @@
  */
 'use strict'
 
-var React = require('react-native')
+import React, { Component } from 'react'
+import { AppRegistry, StyleSheet, Navigator } from 'react-native'
 import HomePage from './jscore/HomePage'
-
-var {
-  AppRegistry,
-  StyleSheet,
-  Navigator,
-  Component
-} = React
 
 class ReactNativeGank extends Component {
   constructor (props) {

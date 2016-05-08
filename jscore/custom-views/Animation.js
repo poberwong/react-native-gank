@@ -3,12 +3,8 @@
  * https://github.com/facebook/react-native
  */
 'use strict'
-import React, {
-  Component,
-  Animated,
-  PropTypes,
-  View
-} from 'react-native'
+import React, { Component, PropTypes } from 'react'
+import { Animated, View } from 'react-native'
 
 class Animation extends Component {
   constructor (props) {

@@ -1,19 +1,10 @@
 'use strict'
-import React from 'react-native'
-import DateUtils from './utils/DateUtils'
+import React, { Component } from 'react'
+import { View, Animated, Image, TouchableHighlight, Text, StyleSheet } from 'react-native'
 import RequestUtils from './utils/RequestUtils'
 import HistoryList from './HistoryList'
 import WebViewPage from './WebViewPage'
 import SnackBar from './custom-views/SnackBar.js'
-var {
-    StyleSheet,
-    View,
-    Component,
-    Animated,
-    Image,
-    TouchableHighlight,
-    Text
-   } = React
 
 class HomePage extends Component {
   constructor (...args) {
@@ -127,7 +118,7 @@ class HomePage extends Component {
     }
 
     return (
-      <View style={styles.content}  needsOffscreenAlphaCompositing renderToHardwareTextureAndroid >
+      <View style={styles.content} needsOffscreenAlphaCompositing renderToHardwareTextureAndroid >
         {content}
         {this._welcome()}
       </View>

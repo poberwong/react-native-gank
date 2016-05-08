@@ -1,18 +1,9 @@
 'use strict'
 
-import React from 'react-native'
+import React, { Component } from 'react'
+import { ScrollView, View, TouchableHighlight, Image, Text, StyleSheet } from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
 import WebViewPage from './WebViewPage'
-
-var {
-    StyleSheet,
-    ScrollView,
-    View,
-    Component,
-    TouchableHighlight,
-    Image,
-    Text
-   } = React
 
 const HEADER_HEIGHT = 400
 

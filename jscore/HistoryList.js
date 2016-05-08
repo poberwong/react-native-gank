@@ -1,21 +1,12 @@
 'use strict'
-import React from 'react-native'
+import React, { Component } from 'react'
+import { View, StyleSheet, ListView, TouchableHighlight, RefreshControl, Image, Text } from 'react-native'
 import RequestUtils from './utils/RequestUtils'
 import DailyContent from './DailyContent'
 import NavigationBar from 'react-native-navigationbar'
 import AboutPage from './AboutPage'
 import Animation from './custom-views/Animation'
 import SnackBar from './custom-views/SnackBar.js'
-var {
-  StyleSheet,
-  View,
-  ListView,
-  TouchableHighlight,
-  RefreshControl,
-  Image,
-  Text,
-  Component
-} = React
 
 class HistoryList extends Component {
 

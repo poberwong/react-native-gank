@@ -3,10 +3,9 @@
  * https://github.com/facebook/react-native
  */
 'use strict'
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react'
+import {
   Animated,
-  PropTypes,
   StyleSheet,
   Text,
   View

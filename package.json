@@ -1,13 +1,14 @@
 {
   "name": "ReactNativeGank",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react-native": "^0.20.0",
-    "react-native-navigationbar": "^0.1.3"
+    "react": "^0.14.5",
+    "react-native": "^0.25.1",
+    "react-native-navigationbar": "^0.2.5"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.6",
