@@ -17,13 +17,13 @@ const RequestUtils = {
   API_DAILY: 'http://gank.io/api/day/',
 
   getDateArray () { // 'before means index in the full-date-array'
-    return fetchWithTimeout(5000, this.API_DATE).then(response => response.json())// 返回json对象
+    return fetchWithTimeout(10000, this.API_DATE).then(response => response.json())// 返回json对象
   },
 
   async getContents (dateArray) { // default value is 0
     let contentUrlArray = dateArray.map(DateUtils.convertDate).map((date) => this.API_DAILY + date)
     let promises = contentUrlArray.map(
-      (url) => fetchWithTimeout(5000, url).then(response => response.json())
+      (url) => fetchWithTimeout(10000, url).then(response => response.json())
     )
 
     let responseDatasCopy
