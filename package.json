@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^0.14.5",
     "react-native": "^0.25.1",
-    "react-native-navigationbar": "^0.2.5"
+    "react-native-navigationbar": "^0.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.6",
